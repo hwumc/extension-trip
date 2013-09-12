@@ -27,7 +27,8 @@ class Trip extends DataObject {
         $result = array();
         foreach ($tempresult as $r)
         {
-          $result[$r->getId() . ""] = $r;
+            $r->isNew = false;
+            $result[$r->getId() . ""] = $r;
         }
         
 		return $result;
@@ -110,13 +111,14 @@ class Trip extends DataObject {
     }
     
     function getStatus() {
-        if($this->status == TripHardStatus::OPEN && strtotime( $this->signupclose ) < time() )
+        if($this->status == "open" && strtotime( $this->signupclose ) < time() )
         {
-            return TripHardStatus::CLOSED;
+            return "closed";
         }
         
         return $this->status;
-    }    
+    }
+    
     function getRealStatus() {
         return $this->status;
     }

@@ -19,6 +19,7 @@ class HwumcTripExtension extends Extension
         $files = array(
             "HwumcTripHooks" => "HwumcTripHooks.php",
             "Trip" => "DataObjects/Trip.php",
+            "Signup" => "DataObjects/Signup.php",
             "TripHardStatus" => "TripHardStatus.php",
         );
 		

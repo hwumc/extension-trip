@@ -20,8 +20,8 @@
 				{foreach from="$triplist" item="trip" key="tripid" }
 				<tr>
 					<td>{$trip->getYear()|escape}</td>
-					<td>{$trip->getSemester()|escape}</td>
-					<td>{$trip->getWeek()|escape}</td>
+					<td>{message name="{$pageslug}-text-semester-short"}{$trip->getSemester()|escape}</td>
+					<td>{message name="{$pageslug}-text-week-short"}{$trip->getWeek()|escape}</td>
 					<th>{$trip->getLocation()|escape}</th>
 					<td>
 						{if $allowEdit == "true"}
@@ -31,7 +31,7 @@
 						{/if}
 					</td>
 					{if $allowEdit == "true"}<td><a href="{$cScriptPath}/{$pageslug}/edit/{$tripid}" class="btn btn-small btn-warning">{message name="{$pageslug}-button-editrip"}</a></td>{/if}
-					{if $allowDelete == "true"}<td><a href="{$cScriptPath}/{$pageslug}/delete/{$tripid}" class="btn btn-small btn-danger">{message name="{$pageslug}-button-deletetrip"}</a></td>{/if}
+					{if $allowDelete == "true"}<td><a href="{if $trip->canDelete()}{$cScriptPath}/{$pageslug}/delete/{$tripid}{else}#{/if}" class="btn btn-small btn-danger {if !$trip->canDelete()}disabled{/if}">{message name="{$pageslug}-button-deletetrip"}</a></td>{/if}
 				</tr>
 				{/foreach}
 			</tbody>

@@ -18,9 +18,10 @@
 						{if $allowSignup}
 							{if $trip->getStatus() == "open"}
 								<a href="{$cScriptPath}/{$pageslug}/signup/{$tripid}" class="btn btn-success">{message name="{$pageslug}-button-signup"}</a>
+								<a href="{$cScriptPath}/{$pageslug}/list/{$tripid}" class="btn">{message name="{$pageslug}-button-viewlist"}</a>
 							{else}
 								{if $trip->getStatus() != "published"}
-									<a href="{$cScriptPath}/{$pageslug}/signup/{$tripid}" class="btn{if $trip->getStatus() == "cancelled"} btn-danger{/if}">{message name="{$pageslug}-tripstatusmessage-{$trip->getStatus()}"}{message name="{$pageslug}-button-signuplist"}</a>
+									<a href="{$cScriptPath}/{$pageslug}/list/{$tripid}" class="btn{if $trip->getStatus() == "cancelled"} btn-danger{/if}">{message name="{$pageslug}-tripstatusmessage-{$trip->getStatus()}"}{message name="{$pageslug}-button-signuplist"}</a>
 								{else}
 									{message name="{$pageslug}-tripstatusmessage-{$trip->getStatus()}"}
 								{/if}

@@ -6,9 +6,9 @@ class PageTrips extends PageBase
 {
 	public function __construct()
 	{
-		$this->mPageUseRight = "trips-view";
+        $this->mPageUseRight = "trips-view";
 		$this->mMenuGroup = "Trips";
-        $this->mPageRegisteredRights = array( "trips-signup" );
+        $this->mPageRegisteredRights = array( "trips-signup", "trips-list" );
 	}
 
 	protected function runPage()
@@ -18,6 +18,10 @@ class PageTrips extends PageBase
 			switch( $data[0] ) {
 				case "signup":
 					$this->signupMode( $data );
+					return;
+					break;
+				case "list":
+					$this->listMode( $data );
 					return;
 					break;
 			}
@@ -49,38 +53,23 @@ class PageTrips extends PageBase
 
     protected function signupMode( $data )
     {
-        $allowEdit = "false";
-		try {
-			self::checkAccess('tripmanager-edit');
-			$allowEdit = "true";
-		}
-        catch(AccessDeniedException $ex) { 
-            $allowEdit = "false";
-		}
+		self::checkAccess('trips-signup');
         
 		$g = Trip::getById( $data[ 1 ] );
-
-        $this->mSmarty->assign("allowEdit", $allowEdit);
+        $user = User::getLoggedIn();
         
 		if( WebRequest::wasPosted() ) {
-			if( ! $allowEdit ) throw new AccessDeniedException();
-			
-            $g->setLocation( WebRequest::post( "location" ) );
-            $g->setDescription( WebRequest::post( "description" ) );
-            $g->setYear( WebRequest::post( "year" ) );
-            $g->setSemester( WebRequest::post( "semester" ) );
-            $g->setWeek( WebRequest::post( "week" ) );
-            $g->setStartDate( WebRequest::post( "startdate" ) );
-            $g->setEndDate( WebRequest::post( "enddate" ) );
-            $g->setPrice( WebRequest::post( "price" ) );
-            $g->setSpaces( WebRequest::post( "spaces" ) );
-            $g->setSignupClose( WebRequest::post( "signupclose" ) );
-			$g->save();
+			$s = new Signup();
+            $s->setTrip($g->getId());
+            $s->setUser($user->getId());
+			$s->save();
+            
+            
 			
 			global $cScriptPath;
-			$this->mHeaders[] = ( "Location: " . $cScriptPath . "/ManageTrips" );
+			$this->mHeaders[] = ( "Location: " . $cScriptPath . "/Trips/list/" . $data[ 1 ] );
 		} else {
-			$this->mBasePage = "managetrips/tripcreate.tpl";
+			$this->mBasePage = "trips/tripsignup.tpl";
             $this->mSmarty->assign( "startdate", $g->getStartDate() );
             $this->mSmarty->assign( "enddate", $g->getEndDate() );
             $this->mSmarty->assign( "semester", $g->getSemester() );
@@ -92,6 +81,20 @@ class PageTrips extends PageBase
             $this->mSmarty->assign( "spaces", $g->getSpaces() );
             $this->mSmarty->assign( "signupclose", $g->getSignupClose() );
             
+			$this->mSmarty->assign( "realname", $user->getFullName() );
+			$this->mSmarty->assign( "mobile", $user->getMobile() );
+			$this->mSmarty->assign( "experience", $user->getExperience() );
+			$this->mSmarty->assign( "medicalcheck", ($user->getMedical() == "" ? "" : 'checked="true"') );
+			$this->mSmarty->assign( "medical", $user->getMedical() );
+			$this->mSmarty->assign( "contactname", $user->getEmergencyContact() );
+			$this->mSmarty->assign( "contactphone", $user->getEmergencyContactPhone() );
        }
+    }
+    
+    protected function listMode( $data )
+    {
+		self::checkAccess('trips-list');
+        
+        $this->mBasePage = "trips/signuplist.tpl";
     }
 }

@@ -11,18 +11,18 @@ class Signup extends DataObject {
         
     public static function getByTrip($id) {
 		global $gDatabase;
-		$statement = $gDatabase->prepare("SELECT * FROM `" . strtolower( get_called_class() ) . "` WHERE trip = :id LIMIT 1;");
+		$statement = $gDatabase->prepare("SELECT * FROM `" . strtolower( get_called_class() ) . "` WHERE trip = :id;");
 		$statement->bindParam(":id", $id);
 
 		$statement->execute();
 
-		$resultObject = $statement->fetchObject( get_called_class() );
+		$resultObject = $statement->fetchAll( PDO::FETCH_CLASS , get_called_class() );
 
-		if($resultObject != false)
-		{
-			$resultObject->isNew = false;
-		}
-
+        foreach ($resultObject as $r)
+        {
+            $r->isNew = false;
+        }
+        
 		return $resultObject;
 	}    
     
@@ -55,7 +55,7 @@ class Signup extends DataObject {
         return $this->trip;
     }
     
-    function getUser($user) {
+    function setUser($user) {
         $this->user = $user;
     }
     
