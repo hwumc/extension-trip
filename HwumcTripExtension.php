@@ -18,6 +18,8 @@ class HwumcTripExtension extends Extension
 	{
         $files = array(
             "HwumcTripHooks" => "HwumcTripHooks.php",
+            "Trip" => "DataObjects/Trip.php",
+            "TripHardStatus" => "TripHardStatus.php",
         );
 		
 		return array_key_exists($class, $files) ? $files[$class] : null;

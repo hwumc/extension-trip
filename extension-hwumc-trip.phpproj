@@ -23,12 +23,55 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <IncludeDebugInformation>false</IncludeDebugInformation>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'beta' ">
+    <IncludeDebugInformation>true</IncludeDebugInformation>
+    <OutputPath>bin\beta\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DataObjects\Signup.php">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DataObjects\Trip.php">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="HwumcTripExtension.php">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HwumcTripHooks.php">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Page\PageTrips.php">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Page\PageManageTrips.php">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TripHardStatus.php">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataObjects\" />
+    <Folder Include="Page\" />
+    <Folder Include="Templates\" />
+    <Folder Include="Templates\managetrips\" />
+    <Folder Include="Templates\trips" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Templates\managetrips\tripworkflow.tpl">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Templates\managetrips\tripcreate.tpl">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Templates\managetrips\tripdelete.tpl">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Templates\managetrips\list.tpl">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Templates\trips\list.tpl">
+      <SubType>Content</SubType>
+    </Content>
   </ItemGroup>
 </Project>
