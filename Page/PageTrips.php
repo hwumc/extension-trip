@@ -58,10 +58,17 @@ class PageTrips extends PageBase
 		$g = Trip::getById( $data[ 1 ] );
         $user = User::getLoggedIn();
         
+        if($g->getStatus() != "open" )
+        {
+            throw new AccessDeniedException();
+        }
+        
 		if( WebRequest::wasPosted() ) {
 			$s = new Signup();
             $s->setTrip($g->getId());
             $s->setUser($user->getId());
+            $s->setActionPlan( WebRequest::post( "actionplan" ) );
+            $s->setBorrowGear( WebRequest::post( "borrowgear" ) );
 			$s->save();
             
             
@@ -95,6 +102,11 @@ class PageTrips extends PageBase
     {
 		self::checkAccess('trips-list');
         
+		$g = Trip::getById( $data[ 1 ] );
         $this->mBasePage = "trips/signuplist.tpl";
+        
+        $signups = Signup::getByTrip( $g->getId() );
+        $this->mSmarty->assign( "trip", $g );
+        $this->mSmarty->assign( "signups", $signups );
     }
 }

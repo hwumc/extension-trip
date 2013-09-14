@@ -1,7 +1,7 @@
 {extends file="base.tpl"}
 {block name="body"}
 	<p>
-		<table class="table table table-striped table-bordered table-hover">
+		<table class="table table-striped table-bordered table-hover">
 			<tbody>
 				{foreach from="$triplist" item="trip" key="tripid" }
 				<tr{if $trip->getStatus() == "open"} class="success"{/if}{if $trip->getStatus() == "cancelled"} class="error"{/if}>
@@ -17,11 +17,11 @@
 					<td>
 						{if $allowSignup}
 							{if $trip->getStatus() == "open"}
-								<a href="{$cScriptPath}/{$pageslug}/signup/{$tripid}" class="btn btn-success">{message name="{$pageslug}-button-signup"}</a>
-								<a href="{$cScriptPath}/{$pageslug}/list/{$tripid}" class="btn">{message name="{$pageslug}-button-viewlist"}</a>
+								<a href="{$cScriptPath}/{$pageslug}/signup/{$trip->getId()}" class="btn btn-success">{message name="{$pageslug}-button-signup"}</a>
+								<a href="{$cScriptPath}/{$pageslug}/list/{$trip->getId()}" class="btn">{message name="{$pageslug}-button-viewlist"}</a>
 							{else}
 								{if $trip->getStatus() != "published"}
-									<a href="{$cScriptPath}/{$pageslug}/list/{$tripid}" class="btn{if $trip->getStatus() == "cancelled"} btn-danger{/if}">{message name="{$pageslug}-tripstatusmessage-{$trip->getStatus()}"}{message name="{$pageslug}-button-signuplist"}</a>
+									<a href="{$cScriptPath}/{$pageslug}/list/{$trip->getId()}" class="btn{if $trip->getStatus() == "cancelled"} btn-danger{/if}">{message name="{$pageslug}-tripstatusmessage-{$trip->getStatus()}"}{message name="{$pageslug}-button-signuplist"}</a>
 								{else}
 									{message name="{$pageslug}-tripstatusmessage-{$trip->getStatus()}"}
 								{/if}
@@ -32,7 +32,7 @@
 					</td>
 				</tr>
 				<tr{if $trip->getStatus() == "open"} class="success"{/if}{if $trip->getStatus() == "cancelled"} class="error"{/if}>
-					<td colspan="5">{$trip->getDescription()|escape}</td>
+					<td colspan="5">{$trip->getDescription()}</td>
 				</tr>
 				{/foreach}
 			</tbody>

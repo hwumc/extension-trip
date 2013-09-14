@@ -8,6 +8,8 @@ class Signup extends DataObject {
     protected $trip;
     protected $user;
     protected $time;
+    protected $borrowgear;
+    protected $actionplan;
         
     public static function getByTrip($id) {
 		global $gDatabase;
@@ -43,8 +45,10 @@ class Signup extends DataObject {
 		return $resultObject;
 	}
     
-    function getSignupTime() {
-        return DateTime::createFromFormat("Y-m-d", $this->time)->format("d/m/Y");
+    function getTime() {
+        $fmt = DateTime::createFromFormat("Y-m-d H:i:s", $this->time);
+        
+        return $fmt->format("H:i:s d/m/Y");
     }
     
     function setTrip($trip) {
@@ -55,6 +59,11 @@ class Signup extends DataObject {
         return $this->trip;
     }
     
+    function getTripObject()
+    {
+        return Trip::getById( $this->trip );   
+    }
+    
     function setUser($user) {
         $this->user = $user;
     }
@@ -63,15 +72,42 @@ class Signup extends DataObject {
         return $this->user;
     }
     
+    function getUserObject()
+    {
+        return User::getById( $this->user );   
+    }
+    
+    function getBorrowGear()
+    {
+        return $this->borrowgear;   
+    }
+    
+    function setBorrowGear( $gear )
+    {
+        $this->borrowgear = $gear;   
+    }
+    
+    function getActionPlan()
+    {
+        return $this->actionplan;   
+    }
+    
+    function setActionPlan( $plan )
+    {
+        $this->actionplan = $plan;   
+    }
+    
     public function save()
     {
         global $gDatabase;
 
 		if($this->isNew)
 		{ // insert
-			$statement = $gDatabase->prepare("INSERT INTO `" . strtolower( get_called_class() ) . "` VALUES (null, :user, :trip, null);");
+			$statement = $gDatabase->prepare("INSERT INTO `" . strtolower( get_called_class() ) . "` VALUES (null, :user, :trip, null, :gear, :plan);");
             $statement->bindParam(":user", $this->user);
             $statement->bindParam(":trip", $this->trip);
+            $statement->bindParam(":gear", $this->borrowgear);
+            $statement->bindParam(":plan", $this->actionplan);
             
 			if($statement->execute())
 			{
