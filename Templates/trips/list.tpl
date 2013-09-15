@@ -15,7 +15,7 @@
 					<td colspan="3">{$trip->getLocation()|escape}</td>
 					<td>{message name="{$pageslug}-text-registerby"}: {$trip->getSignupClose()|escape}</td>
 					<td>
-						{if $allowSignup}
+						{if $allowSignup == "true"}
 							{if $trip->getStatus() == "open"}
 								<a href="{$cScriptPath}/{$pageslug}/signup/{$trip->getId()}" class="btn btn-success">{message name="{$pageslug}-button-signup"}</a>
 								<a href="{$cScriptPath}/{$pageslug}/list/{$trip->getId()}" class="btn">{message name="{$pageslug}-button-viewlist"}</a>

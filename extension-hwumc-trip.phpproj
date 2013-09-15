@@ -58,6 +58,9 @@
     <Folder Include="Templates\trips" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Templates\managetrips\tripdeletesignup.tpl">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Templates\managetrips\tripsignup.tpl">
       <SubType>Content</SubType>
     </Content>

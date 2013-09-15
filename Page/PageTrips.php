@@ -6,7 +6,6 @@ class PageTrips extends PageBase
 {
 	public function __construct()
 	{
-        $this->mPageUseRight = "trips-view";
 		$this->mMenuGroup = "Trips";
         $this->mPageRegisteredRights = array( "trips-signup", "trips-list" );
 	}
