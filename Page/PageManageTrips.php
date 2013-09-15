@@ -4,12 +4,11 @@ if(!defined("HMS")) die("Invalid entry point");
 
 class PageManageTrips extends PageBase
 {
-
 	public function __construct()
 	{
 		$this->mPageUseRight = "tripmanager-view";
 		$this->mMenuGroup = "Trips";
-		$this->mPageRegisteredRights = array( "tripmanager-edit", "tripmanager-create", "tripmanager-delete" );
+		$this->mPageRegisteredRights = array( "tripmanager-edit", "tripmanager-create", "tripmanager-delete", "tripmanager-signup" );
 		
 	}
 
@@ -34,6 +33,14 @@ class PageManageTrips extends PageBase
 					$this->workflowMode( $data );
 					return;
 					break;
+                case "signup":
+                    $this->signupMode( $data );
+					return;
+					break;
+                case "deletesignup":
+                    $this->deleteSignupMode( $data );
+					return;
+					break;
 			}
 	
 		}
@@ -54,8 +61,16 @@ class PageManageTrips extends PageBase
 		try {
 			self::checkAccess('tripmanager-edit');
 			$this->mSmarty->assign("allowEdit", 'true');
-		} catch(AccessDeniedException $ex) { 
+		}
+        catch(AccessDeniedException $ex) { 
 			$this->mSmarty->assign("allowEdit", 'false');
+		}
+		try {
+			self::checkAccess('tripmanager-signup');
+			$this->mSmarty->assign("allowSignup", 'true');
+		}
+        catch(AccessDeniedException $ex) { 
+			$this->mSmarty->assign("allowSignup", 'false');
 		}
 		
 		$this->mBasePage = "managetrips/list.tpl";
@@ -218,4 +233,38 @@ class PageManageTrips extends PageBase
             $this->mStyles[] = $cWebPath . '/style/datepicker.css';
 		}
 	}
+
+    private function signupMode( $data ) {
+	    self::checkAccess('tripmanager-signup');
+        
+		$g = Trip::getById( $data[ 1 ] );
+        $signups = Signup::getByTrip( $g->getId() );
+        
+		$this->mBasePage = "managetrips/tripsignup.tpl";
+        $this->mSmarty->assign( "trip", $g );
+        $this->mSmarty->assign( "signups", $signups );
+	}
+    
+    
+	private function deleteSignupMode( $data ) {
+		self::checkAccess( "tripmanager-signup" );
+        
+		if( WebRequest::wasPosted() ) {
+			$g = Signup::getById( $data[1] );
+			if( $g !== false ) {
+				if( WebRequest::post( "confirm" ) == "confirmed" ) {
+					$g->delete();
+					$this->mSmarty->assign("content", "deleted" );
+				}
+			}
+			
+			global $cScriptPath;
+			$this->mHeaders[] =  "Location: " . $cScriptPath . "/ManageTrips";
+			
+			
+		} else {
+			$this->mBasePage = "managetrips/tripdeletesignup.tpl";
+		}
+	}
+
 }

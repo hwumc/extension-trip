@@ -58,6 +58,9 @@
     <Folder Include="Templates\trips" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Templates\managetrips\tripsignup.tpl">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Templates\managetrips\tripworkflow.tpl">
       <SubType>Content</SubType>
     </Content>
@@ -68,6 +71,12 @@
       <SubType>Content</SubType>
     </Content>
     <Content Include="Templates\managetrips\list.tpl">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Templates\trips\signuplist.tpl">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Templates\trips\tripsignup.tpl">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Templates\trips\list.tpl">

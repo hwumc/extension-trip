@@ -194,4 +194,17 @@ class Trip extends DataObject {
             return true;
         return false;
     }
+
+    public function isUserSignedUp( $userid )
+    {
+        foreach ( Signup::getByTrip( $this->getId() ) as $signup )
+        {
+            if( $signup->getUser() == $userid )
+            {
+                return true;   
+            }
+        }
+        
+        return false;
+    }
 }

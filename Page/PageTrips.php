@@ -52,11 +52,19 @@ class PageTrips extends PageBase
 	}
 
     protected function signupMode( $data )
-    {
+    { 
+        global $cScriptPath;
 		self::checkAccess('trips-signup');
         
 		$g = Trip::getById( $data[ 1 ] );
         $user = User::getLoggedIn();
+        
+        if( $g->isUserSignedUp( $user->getId() ) )
+        {
+            $this->mIsRedirecting = true;
+            Session::appendError( "tripsignup-alreadysignedup" );
+            $this->mHeaders[] = "Location: " . $cScriptPath . "/Trips/list/" . $data[ 1 ];
+        }
         
         if($g->getStatus() != "open" )
         {
@@ -71,9 +79,6 @@ class PageTrips extends PageBase
             $s->setBorrowGear( WebRequest::post( "borrowgear" ) );
 			$s->save();
             
-            
-			
-			global $cScriptPath;
 			$this->mHeaders[] = ( "Location: " . $cScriptPath . "/Trips/list/" . $data[ 1 ] );
 		} else {
 			$this->mBasePage = "trips/tripsignup.tpl";

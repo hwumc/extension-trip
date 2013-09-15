@@ -13,6 +13,7 @@
 					<th>{message name="{$pageslug}-text-location"}</th>
 					<th>{message name="{$pageslug}-text-status"}</th>
 					{if $allowEdit == "true"}<th>{message name="{$pageslug}-text-edit"}</th>{/if}
+					{if $allowSignup == "true"}<th>{message name="{$pageslug}-text-signup"}</th>{/if}
 					{if $allowDelete == "true"}<th>{message name="{$pageslug}-text-delete"}</th>{/if}
 				</tr>
 			</thead>
@@ -31,6 +32,13 @@
 						{/if}
 					</td>
 					{if $allowEdit == "true"}<td><a href="{$cScriptPath}/{$pageslug}/edit/{$tripid}" class="btn btn-small btn-warning">{message name="{$pageslug}-button-editrip"}</a></td>{/if}
+					{if $allowSignup == "true"}
+						<td>
+							{if $trip->getStatus() != "new" && $trip->getStatus() != "published"}
+								<a href="{$cScriptPath}/{$pageslug}/signup/{$tripid}" class="btn btn-small btn-info">{message name="{$pageslug}-button-signup"}</a>
+							{/if}
+						</td>
+					{/if}
 					{if $allowDelete == "true"}<td><a href="{if $trip->canDelete()}{$cScriptPath}/{$pageslug}/delete/{$tripid}{else}#{/if}" class="btn btn-small btn-danger {if !$trip->canDelete()}disabled{/if}">{message name="{$pageslug}-button-deletetrip"}</a></td>{/if}
 				</tr>
 				{/foreach}

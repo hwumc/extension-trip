@@ -3,55 +3,24 @@
 {block name="body"}
 <form class="form-horizontal" method="post">
 	<legend>{message name="{$pageslug}-trip-header"}</legend>
-	<div class="control-group">
-		<label class="control-label" for="location">{message name="{$pageslug}-signup-location"}</label>
-		<div class="controls">
-			<input class="input-xxlarge" type="text" id="location" value="{$location}" disabled="true"/>
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label" for="description">{message name="{$pageslug}-signup-description"}</label>
-		<div class="controls">
-			<textarea class="input-xxlarge" type="text" id="description" disabled>{$description}</textarea>
-		</div>
-	</div>	
-	<div class="control-group">
-		<label class="control-label" for="year">{message name="{$pageslug}-signup-uniweek"}</label>
-		<div class="controls controls-row">
-			<input class="span2" type="text" id="year" value="{$year}" disabled="true"/>
-			<input class="span2" type="text" id="semester" value="{$semester}" disabled="true"/>
-			<input class="span2" type="text" id="week" value="{$week}" disabled="true"/>
-		</div>
-	</div>	
-
-	<div class="control-group">
-		<label class="control-label" for="startdate">{message name="{$pageslug}-signup-startenddate"}</label>
-		<div class="controls controls-row">
-			<input class="span2" type="text" id="startdate" data-date-format="dd/mm/yyyy" value="{$startdate}" disabled="true" />
-			<input class="span2" type="text" id="enddate" data-date-format="dd/mm/yyyy" value="{$enddate}" disabled="true"/>
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label" for="signupclose">{message name="{$pageslug}-signup-signupclose"}</label>
-		<div class="controls">
-			<input class="input-medium" type="text" id="signupclose" data-date-format="dd/mm/yyyy" value="{$signupclose}" disabled="true"/>
-		</div>
-	</div>	
-	<div class="control-group">
-		<label class="control-label" for="price">{message name="{$pageslug}-signup-price"}</label>
-		<div class="controls">
-			<div class="input-prepend">
-				<span class="add-on">&pound;</span>
-				<input class="input-medium" type="text" id="price" value="{$price}" disabled="true"/>
-			</div>
-		</div>
-	</div>	
-	<div class="control-group">
-		<label class="control-label" for="spaces">{message name="{$pageslug}-signup-spaces"}</label>
-		<div class="controls">
-			<input class="input-medium" type="text" id="spaces" value="{$spaces}" disabled="true"/>
-		</div>
-	</div>	
+	<table class="table table-striped table-bordered table-hover">
+		<tbody>
+			<tr>
+				<th rowspan="3">Week {$week|escape}, Semester {$semester|escape} {$year|escape}</th>
+				<td colspan="2">{message name="{$pageslug}-text-price"}: &pound;{$price|escape}</td>
+				<td>{message name="{$pageslug}-text-spaces"}: {$spaces|escape}</td>
+				<td>{message name="{$pageslug}-text-startdate"}: {$startdate|escape}</td>
+				<td>{message name="{$pageslug}-text-enddate"}: {$enddate|escape}</td>
+			</tr>
+			<tr>
+				<td colspan="4">{$location|escape}</td>
+				<td>{message name="{$pageslug}-text-registerby"}: {$signupclose|escape}</td>
+			</tr>
+			<tr>
+				<td colspan="5">{$description}</td>
+			</tr>
+		</tbody>
+	</table>
 
 	<fieldset>
 		<legend>{message name="{$pageslug}-user-header"}</legend>
