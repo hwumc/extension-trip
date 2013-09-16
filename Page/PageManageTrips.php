@@ -209,6 +209,7 @@ class PageManageTrips extends PageBase
             $g->setPrice( WebRequest::post( "price" ) );
             $g->setSpaces( WebRequest::post( "spaces" ) );
             $g->setSignupClose( WebRequest::post( "signupclose" ) );
+            $g->setHasMeal( 0 );
 			$g->save();
 			
 			global $cScriptPath;

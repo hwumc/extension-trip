@@ -76,6 +76,7 @@ class PageTrips extends PageBase
             $s->setUser($user->getId());
             $s->setActionPlan( WebRequest::post( "actionplan" ) );
             $s->setBorrowGear( WebRequest::post( "borrowgear" ) );
+            $s->setMeal( 0 );
 			$s->save();
             
 			$this->mHeaders[] = ( "Location: " . $cScriptPath . "/Trips/list/" . $data[ 1 ] );

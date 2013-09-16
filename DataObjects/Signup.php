@@ -10,6 +10,7 @@ class Signup extends DataObject {
     protected $time;
     protected $borrowgear;
     protected $actionplan;
+    protected $meal;
         
     public static function getByTrip($id) {
 		global $gDatabase;
@@ -97,17 +98,28 @@ class Signup extends DataObject {
         $this->actionplan = $plan;   
     }
     
+    function getMeal()
+    {
+        return $this->meal;
+    }
+    
+    function setMeal( $meal )
+    {
+        $this->meal = $meal;   
+    }
+    
     public function save()
     {
         global $gDatabase;
 
 		if($this->isNew)
 		{ // insert
-			$statement = $gDatabase->prepare("INSERT INTO `" . strtolower( get_called_class() ) . "` VALUES (null, :user, :trip, null, :gear, :plan);");
+			$statement = $gDatabase->prepare("INSERT INTO `" . strtolower( get_called_class() ) . "` VALUES (null, :user, :trip, null, :gear, :plan, :meal);");
             $statement->bindParam(":user", $this->user);
             $statement->bindParam(":trip", $this->trip);
             $statement->bindParam(":gear", $this->borrowgear);
             $statement->bindParam(":plan", $this->actionplan);
+            $statement->bindParam(":meal", $this->meal);
             
 			if($statement->execute())
 			{
