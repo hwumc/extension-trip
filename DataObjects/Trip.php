@@ -111,9 +111,9 @@ class Trip extends DataObject {
     }
     
     function getStatus() {
-        if($this->status == "open" && strtotime( $this->signupclose ) < time() )
+        if($this->status == TripHardStatus::OPEN && strtotime( $this->signupclose ) < time() )
         {
-            return "closed";
+            return TripHardStatus::CLOSED;
         }
         
         return $this->status;
@@ -184,13 +184,13 @@ class Trip extends DataObject {
     }
 
     public function canDelete() {
-        if( $this->status == "new" )
+        if( $this->status == TripHardStatus::NEWTRIP )
             return true;
-        if( $this->status == "published" )
+        if( $this->status == TripHardStatus::PUBLISHED )
             return true;
-        if( $this->status == "cancelled" )
+        if( $this->status == TripHardStatus::CANCELLED )
             return true;
-        if( $this->status == "completed" )
+        if( $this->status == TripHardStatus::COMPLETED )
             return true;
         return false;
     }

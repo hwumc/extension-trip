@@ -34,7 +34,7 @@
 					{if $allowEdit == "true"}<td><a href="{$cScriptPath}/{$pageslug}/edit/{$tripid}" class="btn btn-small btn-warning">{message name="{$pageslug}-button-editrip"}</a></td>{/if}
 					{if $allowSignup == "true"}
 						<td>
-							{if $trip->getStatus() != "new" && $trip->getStatus() != "published"}
+							{if $trip->getStatus() != TripHardStatus::NEWTRIP && $trip->getStatus() != TripHardStatus::PUBLISHED }
 								<a href="{$cScriptPath}/{$pageslug}/signup/{$tripid}" class="btn btn-small btn-info">{message name="{$pageslug}-button-signup"}</a>
 							{/if}
 						</td>
