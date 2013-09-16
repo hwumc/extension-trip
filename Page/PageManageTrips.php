@@ -37,6 +37,10 @@ class PageManageTrips extends PageBase
                     $this->signupMode( $data );
 					return;
 					break;
+                case "signupfull":
+                    $this->signupFullMode( $data );
+					return;
+					break;
                 case "deletesignup":
                     $this->deleteSignupMode( $data );
 					return;
@@ -244,6 +248,11 @@ class PageManageTrips extends PageBase
 		$this->mBasePage = "managetrips/tripsignup.tpl";
         $this->mSmarty->assign( "trip", $g );
         $this->mSmarty->assign( "signups", $signups );
+	}    
+    
+    private function signupFullMode( $data ) {
+	    $this->signupMode( $data );
+		$this->mBasePage = "managetrips/tripsignupfull.tpl";
 	}
     
     

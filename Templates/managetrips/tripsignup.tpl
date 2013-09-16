@@ -21,6 +21,7 @@
 		</tbody>
 	</table>
 	<h3>{message name="{$pageslug}-signup-sheetheader"}</h3>
+	<a href="{$cScriptPath}/{$pageslug}/signupfull/{$trip->getId()}" class="btn btn-small btn-info">{message name="{$pageslug}-button-fullsheet-print"}</a>
 	<table class="table table-striped table-bordered table-hover">
 		<tr>
 			<th>Place</th>
