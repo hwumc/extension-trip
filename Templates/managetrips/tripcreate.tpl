@@ -27,7 +27,7 @@
 	<div class="control-group">
 		<label class="control-label" for="location">{message name="{$pageslug}-create-location"}</label>
 		<div class="controls">
-			<input class="input-xxlarge" type="text" id="location" name="location" placeholder="{message name="{$pageslug}-create-location-placeholder"}" required="true" value="{$location}" {if $allowEdit == "false"}disabled="true" {/if}/>
+			<input class="input-xxlarge" type="text" id="location" name="location" placeholder="{message name="{$pageslug}-create-location-placeholder"}" required="true" value="{$location|escape}" {if $allowEdit == "false"}disabled="true" {/if}/>
 			<span class="help-inline">{message name="{$pageslug}-create-location-help"}</span>
 		</div>
 	</div>	
