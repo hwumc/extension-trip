@@ -184,13 +184,13 @@ class Trip extends DataObject {
     }
 
     public function canDelete() {
-        if( $this->status == TripHardStatus::NEWTRIP )
+        if( $this->status == "new" )
             return true;
-        if( $this->status == TripHardStatus::PUBLISHED )
+        if( $this->status == "published" )
             return true;
-        if( $this->status == TripHardStatus::CANCELLED )
+        if( $this->status == "cancelled" )
             return true;
-        if( $this->status == TripHardStatus::COMPLETED )
+        if( $this->status == "completed" )
             return true;
         return false;
     }
