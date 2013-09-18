@@ -30,6 +30,9 @@
 			<th>Signup Time</th>
 			<th>Gear required</th>
 			<th>Action Plan</th>
+			{if $trip->getHasMeal() == 1}
+				<th>Meal?</th>
+			{/if}
 		</tr>
 		{foreach from="$signups" item="s" key="tripid"}
 			<tr {if $tripid >= $trip->getSpaces()}class="warning"{/if}>
@@ -39,6 +42,10 @@
 				<td>{$s->getTime()}</td>
 				<td><pre>{$s->getBorrowGear()}</pre></td>
 				<td><pre>{$s->getActionPlan()}</pre></td>
+				
+				{if $trip->getHasMeal() == 1}
+					<td>{$s->getMealText()}</td>
+				{/if}
 			</tr>
 		{/foreach}
 	</table>

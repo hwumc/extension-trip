@@ -89,6 +89,16 @@
 				<textarea rows="3" class="input-xxlarge" id="actionplan" name="actionplan" placeholder="{message name="{$pageslug}-actionplan-placeholder"}" required="true" ></textarea>
 			</div>
 		</div>
+		
+		{if $hasmeal == 1}
+			<div class="control-group">
+				<div class="controls">
+					<label class="control-label" for="meal">
+						<input type="checkbox" id="meal" name="meal" {$meal}/> {message name="{$pageslug}-meal-label"}
+					</label>
+				</div>
+			</div>	
+		{/if}
 
 		<p>{message name="{$pageslug}-signup-confirm-text"}</p>
 		<div class="control-group">

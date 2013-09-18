@@ -103,6 +103,11 @@ class Signup extends DataObject {
         return $this->meal;
     }
     
+    function getMealText()
+    {
+        return $this->meal == 1 ? "Yes" : "No";
+    }
+    
     function setMeal( $meal )
     {
         $this->meal = $meal;   

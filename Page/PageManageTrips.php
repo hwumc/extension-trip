@@ -107,6 +107,10 @@ class PageManageTrips extends PageBase
             $g->setPrice( WebRequest::post( "price" ) );
             $g->setSpaces( WebRequest::post( "spaces" ) );
             $g->setSignupClose( WebRequest::post( "signupclose" ) );
+            
+            $meal = WebRequest::post( "hasmeal" );
+            
+            $g->setHasMeal( $meal == 'on' ? 1 : 0 );
 			$g->save();
 			
 			global $cScriptPath;
@@ -123,6 +127,7 @@ class PageManageTrips extends PageBase
             $this->mSmarty->assign( "price", $g->getPrice() );
             $this->mSmarty->assign( "spaces", $g->getSpaces() );
             $this->mSmarty->assign( "signupclose", $g->getSignupClose() );
+            $this->mSmarty->assign( "hasmeal", $g->getHasMeal() ? 'checked' : '');
             
             global $cWebPath;
             $this->mScripts[] = $cWebPath . '/scripts/bootstrap-datepicker.js';
@@ -213,7 +218,10 @@ class PageManageTrips extends PageBase
             $g->setPrice( WebRequest::post( "price" ) );
             $g->setSpaces( WebRequest::post( "spaces" ) );
             $g->setSignupClose( WebRequest::post( "signupclose" ) );
-            $g->setHasMeal( 0 );
+            
+            $meal = WebRequest::post( "hasmeal" );
+            
+            $g->setHasMeal( $meal == 'on' ? 1 : 0 );
 			$g->save();
 			
 			global $cScriptPath;
@@ -232,6 +240,7 @@ class PageManageTrips extends PageBase
             $this->mSmarty->assign( "price", "" );
             $this->mSmarty->assign( "spaces", "" );
             $this->mSmarty->assign( "signupclose", "" );
+            $this->mSmarty->assign( "hasmeal", "" );
             
             global $cWebPath;
             $this->mScripts[] = $cWebPath . '/scripts/bootstrap-datepicker.js';
@@ -254,8 +263,7 @@ class PageManageTrips extends PageBase
 	    $this->signupMode( $data );
 		$this->mBasePage = "managetrips/tripsignupfull.tpl";
 	}
-    
-    
+     
 	private function deleteSignupMode( $data ) {
 		self::checkAccess( "tripmanager-signup" );
         
@@ -276,5 +284,4 @@ class PageManageTrips extends PageBase
 			$this->mBasePage = "managetrips/tripdeletesignup.tpl";
 		}
 	}
-
 }

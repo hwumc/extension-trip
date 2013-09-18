@@ -93,6 +93,13 @@
 				<span class="help-inline">{message name="{$pageslug}-create-signupclose-help"}</span>
 			</div>
 		</div>	
+		<div class="control-group">
+			<div class="controls">
+				<label class="control-label" for="hasmeal">
+					<input type="checkbox" id="hasmeal" name="hasmeal" {$hasmeal} {if $allowEdit == "false"}disabled="true" {/if}/> {message name="{$pageslug}-create-hasmeal"}
+				</label>
+			</div>
+		</div>	
 	</fieldset>
 	
 	<div class="control-group">

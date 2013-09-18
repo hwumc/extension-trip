@@ -76,7 +76,10 @@ class PageTrips extends PageBase
             $s->setUser($user->getId());
             $s->setActionPlan( WebRequest::post( "actionplan" ) );
             $s->setBorrowGear( WebRequest::post( "borrowgear" ) );
-            $s->setMeal( 0 );
+            
+            $meal = WebRequest::post( "meal" );
+            $s->setMeal( $meal == 'on' ? 1 : 0 );
+            
 			$s->save();
             
 			$this->mHeaders[] = ( "Location: " . $cScriptPath . "/Trips/list/" . $data[ 1 ] );
@@ -92,6 +95,7 @@ class PageTrips extends PageBase
             $this->mSmarty->assign( "price", $g->getPrice() );
             $this->mSmarty->assign( "spaces", $g->getSpaces() );
             $this->mSmarty->assign( "signupclose", $g->getSignupClose() );
+            $this->mSmarty->assign( "hasmeal", $g->getHasMeal() );
             
 			$this->mSmarty->assign( "realname", $user->getFullName() );
 			$this->mSmarty->assign( "mobile", $user->getMobile() );
@@ -100,6 +104,7 @@ class PageTrips extends PageBase
 			$this->mSmarty->assign( "medical", $user->getMedical() );
 			$this->mSmarty->assign( "contactname", $user->getEmergencyContact() );
 			$this->mSmarty->assign( "contactphone", $user->getEmergencyContactPhone() );
+			$this->mSmarty->assign( "meal", "checked" );
        }
     }
     
