@@ -22,8 +22,8 @@
 	<table class="table table-striped table-condensed">
 		<tr>
 			<th>Place</th>
-			<th>Person</th>
-			<th>Contact</th>
+			<th>Full Name<br />Mobile Phone</th>
+			<th>Contact Name<br />Contact Phone</th>
 			<th>Medical</th>
 			<th>Gear</th>
 			<th>Plan</th>
@@ -36,7 +36,7 @@
 		{foreach from="$signups" item="s" key="tripid"}
 			<tr {if $tripid >= $trip->getSpaces()}class="warning"{/if}>
 				<td>{$tripid + 1}{if $tripid >= $trip->getSpaces()} {message name="Trips-signupsheet-waiting"}{/if}</td>
-				<td>{$s->getUserObject()->getFullName()}</td>
+				<td>{$s->getUserObject()->getFullName()}<br />{$s->getUserObject()->getMobile()}</td>
 				<td>{$s->getUserObject()->getEmergencyContact()}<br />{$s->getUserObject()->getEmergencyContactPhone()}</td>
 				<td><pre>{$s->getUserObject()->getMedical()}</pre></td>
 				<td><pre>{$s->getBorrowGear()}</pre></td>
