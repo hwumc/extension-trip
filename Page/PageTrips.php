@@ -58,22 +58,21 @@ class PageTrips extends PageBase
 		$g = Trip::getById( $data[ 1 ] );
         $user = User::getLoggedIn();
         
-        if( $g->isUserSignedUp( $user->getId() ) )
-        {
-            $this->mIsRedirecting = true;
-            Session::appendError( "tripsignup-alreadysignedup" );
-            $this->mHeaders[] = "Location: " . $cScriptPath . "/Trips/list/" . $data[ 1 ];
-        }
-        
         if($g->getStatus() != "open" )
         {
             throw new AccessDeniedException();
         }
         
 		if( WebRequest::wasPosted() ) {
-			$s = new Signup();
-            $s->setTrip($g->getId());
-            $s->setUser($user->getId());
+            $s = $g->isUserSignedUp( $user->getId() );
+            
+            if( $s === false ) 
+            {
+			    $s = new Signup();
+                $s->setTrip($g->getId());
+                $s->setUser($user->getId());
+            }
+            
             $s->setActionPlan( WebRequest::post( "actionplan" ) );
             $s->setBorrowGear( WebRequest::post( "borrowgear" ) );
             
@@ -84,6 +83,22 @@ class PageTrips extends PageBase
             
 			$this->mHeaders[] = ( "Location: " . $cScriptPath . "/Trips/list/" . $data[ 1 ] );
 		} else {
+            $signup = $g->isUserSignedUp( $user->getId() );
+            if( $signup !== false )
+            {
+                $this->mSmarty->assign( "borrowgear", $signup->getBorrowGear() );
+                $this->mSmarty->assign( "actionplan", $signup->getActionPlan() );
+                $this->mSmarty->assign( "confirmcheck", "checked" );
+                $this->mSmarty->assign( "meal", $signup->getMeal() ? "checked" : "");
+            }
+            else 
+            {
+                $this->mSmarty->assign( "borrowgear", "" );
+                $this->mSmarty->assign( "actionplan", "" );
+                $this->mSmarty->assign( "confirmcheck", "" );
+                $this->mSmarty->assign( "meal", "checked" );
+            }
+            
 			$this->mBasePage = "trips/tripsignup.tpl";
             $this->mSmarty->assign( "startdate", $g->getStartDate() );
             $this->mSmarty->assign( "enddate", $g->getEndDate() );
@@ -104,7 +119,7 @@ class PageTrips extends PageBase
 			$this->mSmarty->assign( "medical", $user->getMedical() );
 			$this->mSmarty->assign( "contactname", $user->getEmergencyContact() );
 			$this->mSmarty->assign( "contactphone", $user->getEmergencyContactPhone() );
-			$this->mSmarty->assign( "meal", "checked" );
+			
        }
     }
     

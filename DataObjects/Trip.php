@@ -214,7 +214,7 @@ class Trip extends DataObject {
         {
             if( $signup->getUser() == $userid )
             {
-                return true;   
+                return $signup;   
             }
         }
         

@@ -138,7 +138,16 @@ class Signup extends DataObject {
 		}
 		else
 		{ // update
-            throw new YouShouldntBeDoingThatException();
+            $statement = $gDatabase->prepare("UPDATE `" . strtolower( get_called_class() ) . "` SET borrowgear = :gear, actionplan = :plan, meal = :meal WHERE id = :id;");
+            $statement->bindParam(":id", $this->id);
+            $statement->bindParam(":gear", $this->borrowgear);
+            $statement->bindParam(":plan", $this->actionplan);
+            $statement->bindParam(":meal", $this->meal);
+            
+			if(!$statement->execute())
+			{
+				throw new SaveFailedException();
+			}
 		}
     }
 

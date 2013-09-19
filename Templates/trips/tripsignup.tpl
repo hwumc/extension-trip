@@ -79,14 +79,14 @@
 		<div class="control-group">
 			<label class="control-label" for="borrowgear">{message name="{$pageslug}-borrowgear-label"}</label>
 			<div class="controls">
-				<textarea rows="3" class="input-xxlarge" id="borrowgear" name="borrowgear" placeholder="{message name="{$pageslug}-borrowgear-placeholder"}" required="true" ></textarea>
+				<textarea rows="3" class="input-xxlarge" id="borrowgear" name="borrowgear" placeholder="{message name="{$pageslug}-borrowgear-placeholder"}" required="true" >{$borrowgear}</textarea>
 			</div>
 		</div>
 
 		<div class="control-group">
 			<label class="control-label" for="actionplan">{message name="{$pageslug}-actionplan-label"}</label>
 			<div class="controls">
-				<textarea rows="3" class="input-xxlarge" id="actionplan" name="actionplan" placeholder="{message name="{$pageslug}-actionplan-placeholder"}" required="true" ></textarea>
+				<textarea rows="3" class="input-xxlarge" id="actionplan" name="actionplan" placeholder="{message name="{$pageslug}-actionplan-placeholder"}" required="true" >{$actionplan}</textarea>
 			</div>
 		</div>
 		
@@ -104,7 +104,7 @@
 		<div class="control-group">
 			<div class="controls">
 				<label class="checkbox">
-					<input type="checkbox" name="confirm" value="confirmed" required="true" />
+					<input type="checkbox" name="confirm" value="confirmed" required="true" {$confirmcheck}/>
 					{message name="{$pageslug}-signup-confirm"}
 				</label>
 			</div>
