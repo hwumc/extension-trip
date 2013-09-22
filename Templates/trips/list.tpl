@@ -17,7 +17,7 @@
 					<td>
 						{if $allowSignup == "true"}
 							{if $trip->getStatus() == "open"}
-								<a href="{$cScriptPath}/{$pageslug}/signup/{$trip->getId()}" {if $trip->isUserSignedUp( $loggedInUser->getId() ) !== false}class="btn btn-primary">{message name="{$pageslug}-button-editsignup"}{else}class="btn btn-success">{message name="{$pageslug}-button-signup"}{/if}</a>
+								<a href="{$cScriptPath}/{$pageslug}/signup/{$trip->getId()}" {if $trip->isUserSignedUp( $currentUser->getId() ) !== false}class="btn btn-primary">{message name="{$pageslug}-button-editsignup"}{else}class="btn btn-success">{message name="{$pageslug}-button-signup"}{/if}</a>
 								<a href="{$cScriptPath}/{$pageslug}/list/{$trip->getId()}" class="btn">{message name="{$pageslug}-button-viewlist"}</a>
 							{else}
 								{if $trip->getStatus() != "published"}

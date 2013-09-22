@@ -16,10 +16,10 @@
 {foreach from="$signups" item="s" key="tripid"}
 <tr {if $tripid >= $trip->getSpaces()}class="warning"{/if}>
 	<td>{$tripid + 1}{if $tripid >= $trip->getSpaces()} {message name="{$pageslug}-signupsheet-waiting"}{/if}</td>
-	<td>{$s->getUserObject()->getFullName()}</td>
+	<td>{$s->getUserObject()->getFullName()|escape}</td>
 	<td>{$s->getTime()}</td>
-	<td><pre>{$s->getBorrowGear()}</pre></td>
-	<td><pre>{$s->getActionPlan()}</pre></td>
+	<td><pre>{$s->getBorrowGear()|escape}</pre></td>
+	<td><pre>{$s->getActionPlan()|escape}</pre></td>
 </tr>
 {/foreach}
 </table>

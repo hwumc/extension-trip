@@ -38,10 +38,10 @@
 			<tr {if $tripid >= $trip->getSpaces()}class="warning"{/if}>
 				<td>{$tripid + 1}{if $tripid >= $trip->getSpaces()} {message name="Trips-signupsheet-waiting"}{/if}</td>
 				<td><a href="{$cScriptPath}/ManageTrips/deletesignup/{$s->getId()}" class="btn btn-danger">{message name="{$pageslug}-signupsheet-deletebutton"}</a></td>
-				<td>{$s->getUserObject()->getFullName()}</td>
+				<td>{$s->getUserObject()->getFullName()|escape}</td>
 				<td>{$s->getTime()}</td>
-				<td><pre>{$s->getBorrowGear()}</pre></td>
-				<td><pre>{$s->getActionPlan()}</pre></td>
+				<td><pre>{$s->getBorrowGear()|escape}</pre></td>
+				<td><pre>{$s->getActionPlan()|escape}</pre></td>
 				
 				{if $trip->getHasMeal() == 1}
 					<td>{$s->getMealText()}</td>

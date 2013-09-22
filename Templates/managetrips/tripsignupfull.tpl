@@ -36,12 +36,12 @@
 		{foreach from="$signups" item="s" key="tripid"}
 			<tr {if $tripid >= $trip->getSpaces()}class="warning"{/if}>
 				<td>{$tripid + 1}{if $tripid >= $trip->getSpaces()} {message name="Trips-signupsheet-waiting"}{/if}</td>
-				<td>{$s->getUserObject()->getFullName()}<br />{$s->getUserObject()->getMobile()}</td>
-				<td>{$s->getUserObject()->getEmergencyContact()}<br />{$s->getUserObject()->getEmergencyContactPhone()}</td>
-				<td><pre>{$s->getUserObject()->getMedical()}</pre></td>
-				<td><pre>{$s->getBorrowGear()}</pre></td>
-				<td><pre>{$s->getActionPlan()}</pre></td>
-				<td><pre>{$s->getUserObject()->getExperience()}</pre></td>
+				<td>{$s->getUserObject()->getFullName()|escape}<br />{$s->getUserObject()->getMobile()|escape}</td>
+				<td>{$s->getUserObject()->getEmergencyContact()|escape}<br />{$s->getUserObject()->getEmergencyContactPhone()|escape}</td>
+				<td><pre>{$s->getUserObject()->getMedical()|escape}</pre></td>
+				<td><pre>{$s->getBorrowGear()|escape}</pre></td>
+				<td><pre>{$s->getActionPlan()|escape}</pre></td>
+				<td><pre>{$s->getUserObject()->getExperience()|escape}</pre></td>
 				
 				{if $trip->getHasMeal() == 1}
 					<td>{$s->getMealText()}</td>
