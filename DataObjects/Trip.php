@@ -112,9 +112,15 @@ class Trip extends DataObject {
     }
     
     function getStatus() {
-        if($this->status == TripHardStatus::OPEN && strtotime( $this->signupclose ) < time() )
+        if($this->status == TripHardStatus::OPEN)
         {
-            return TripHardStatus::CLOSED;
+            $date = new DateTime($this->signupclose);
+            $date->add(DateInterval::createFromDateString('1 day'));
+            
+            if($date->format('U') < time())
+            {
+                return TripHardStatus::CLOSED;
+            }
         }
         
         return $this->status;
