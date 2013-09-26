@@ -93,7 +93,7 @@
 		{if $hasmeal == 1}
 			<div class="control-group">
 				<div class="controls">
-					<label class="control-label" for="meal">
+					<label class="checkbox" for="meal">
 						<input type="checkbox" id="meal" name="meal" {$meal}/> {message name="{$pageslug}-meal-label"}
 					</label>
 				</div>
