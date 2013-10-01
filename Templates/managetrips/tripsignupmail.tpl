@@ -5,7 +5,7 @@
 	<title>HWUMC Trip Signup Sheet</title>
 </head>
 <body>	
-	<h3>{message name="{$pageslug}-signup-sheetheader"}</h3>
+	<h3>{message name="ManageTrips-signup-sheetheader"}</h3>
 	<table class="table table-striped table-condensed">
 		<tr>
 			<th>Place</th>
