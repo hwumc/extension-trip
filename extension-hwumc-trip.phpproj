@@ -58,6 +58,12 @@
     <Folder Include="Templates\trips" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Templates\managetrips\tripemail.tpl">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Templates\managetrips\tripsignupmail.tpl">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Templates\managetrips\tripsignupfull.tpl">
       <SubType>Content</SubType>
     </Content>

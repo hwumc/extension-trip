@@ -41,6 +41,10 @@ class PageManageTrips extends PageBase
                     $this->signupFullMode( $data );
 					return;
 					break;
+                case "signupemail":
+                    $this->signupEmailMode( $data );
+					return;
+					break;
                 case "deletesignup":
                     $this->deleteSignupMode( $data );
 					return;
@@ -263,7 +267,46 @@ class PageManageTrips extends PageBase
 	    $this->signupMode( $data );
 		$this->mBasePage = "managetrips/tripsignupfull.tpl";
 	}
-     
+    
+    private function signupEmailMode( $data ) {
+	    self::checkAccess('tripmanager-signup');
+	
+        $users = User::getWithRight( "tripmanager-signup" );
+        
+		if( WebRequest::wasPosted() ) {
+			
+            $userid = WebRequest::post( "user" );
+         
+            $g = Trip::getById( $data[ 1 ] );
+            
+            if( $userid !== false && array_key_exists( $userid, $users ) )
+            {
+                $signups = Signup::getByTrip( $g->getId() );
+                $user = $users[ $userid ];
+                
+                $this->mSmarty->assign( "trip", $g );
+                $this->mSmarty->assign( "signups", $signups );
+                
+                $data = $this->mSmarty->fetch( "managetrips/tripsignupmail.tpl" );
+
+                Mail::sendHtml( $user->getEmail(), Message::getMessage( "ManageTrips-email-subject" ), $data );
+            }
+                
+			global $cScriptPath;
+            
+			$this->mHeaders[] =  "Location: " . $cScriptPath . "/ManageTrips/signup/" . $g->getId();
+		} else {
+			$this->mBasePage = "managetrips/tripemail.tpl";
+            $this->mSmarty->assign( "users", $users );
+		}
+
+        
+        
+        
+	  
+     //   $data = $this->mSmarty->fetch( "managetrips/tripsignupmail.tpl" );
+	}
+    
 	private function deleteSignupMode( $data ) {
 		self::checkAccess( "tripmanager-signup" );
         

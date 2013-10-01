@@ -21,7 +21,10 @@
 		</tbody>
 	</table>
 	<h3>{message name="{$pageslug}-signup-sheetheader"}</h3>
-	<a href="{$cScriptPath}/{$pageslug}/signupfull/{$trip->getId()}" class="btn btn-small btn-info">{message name="{$pageslug}-button-fullsheet-print"}</a>
+	<div class="btn-group" style="margin-bottom:15px;">
+	<a href="{$cScriptPath}/{$pageslug}/signupfull/{$trip->getId()}" class="btn btn-small btn-info"><i class="icon-print icon-white"></i>&nbsp;{message name="{$pageslug}-button-fullsheet-print"}</a>
+	<a href="{$cScriptPath}/{$pageslug}/signupemail/{$trip->getId()}" class="btn btn-small"><i class="icon-envelope"></i>&nbsp;{message name="{$pageslug}-button-fullsheet-email"}</a>
+	</div>
 	<table class="table table-striped table-bordered table-hover">
 		<tr>
 			<th>Place</th>
@@ -37,7 +40,7 @@
 		{foreach from="$signups" item="s" key="tripid"}
 			<tr {if $tripid >= $trip->getSpaces()}class="warning"{/if}>
 				<td>{$tripid + 1}{if $tripid >= $trip->getSpaces()} {message name="Trips-signupsheet-waiting"}{/if}</td>
-				<td><a href="{$cScriptPath}/ManageTrips/deletesignup/{$s->getId()}" class="btn btn-danger">{message name="{$pageslug}-signupsheet-deletebutton"}</a></td>
+				<td><a href="{$cScriptPath}/ManageTrips/deletesignup/{$s->getId()}" class="btn btn-danger"><i class="icon-trash icon-white"></i>&nbsp;{message name="{$pageslug}-signupsheet-deletebutton"}</a></td>
 				<td>{$s->getUserObject()->getFullName()|escape}</td>
 				<td>{$s->getTime()}</td>
 				<td><pre>{$s->getBorrowGear()|escape}</pre></td>
