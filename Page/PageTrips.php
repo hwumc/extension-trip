@@ -130,7 +130,9 @@ class PageTrips extends PageBase
 		$g = Trip::getById( $data[ 1 ] );
         $this->mBasePage = "trips/signuplist.tpl";
         
-        $signups = Signup::getByTrip( $g->getId() );
+        $helper = new SignupListHelper($g);
+        $signups = $helper->getPrioritisedSignups();
+        
         $this->mSmarty->assign( "trip", $g );
         $this->mSmarty->assign( "signups", $signups );
     }

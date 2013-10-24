@@ -21,6 +21,7 @@ class HwumcTripExtension extends Extension
             "Trip" => "DataObjects/Trip.php",
             "Signup" => "DataObjects/Signup.php",
             "TripHardStatus" => "TripHardStatus.php",
+            "SignupListHelper" => "SignupListHelper.php",
         );
 		
 		return array_key_exists($class, $files) ? $files[$class] : null;

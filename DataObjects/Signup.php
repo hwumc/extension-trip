@@ -12,6 +12,24 @@ class Signup extends DataObject {
     protected $actionplan;
     protected $meal;
         
+    // this is *NOT* a stored variable.
+    public $driverpos;
+    
+    public static function getAnonymous($tripid)
+    {
+        $s = new Signup();
+        $s->user = 0;
+        $s->trip = $tripid;
+        $s->time ="1970-01-01 00:00:00";
+        $s->borrowgear = "";
+        $s->actionplan = "";
+        $s->meal = false;
+        $s->driverpos = true;
+        $s->isNew = false;
+        
+        return $s;
+    }
+    
     public static function getByTrip($id) {
 		global $gDatabase;
 		$statement = $gDatabase->prepare("SELECT * FROM `" . strtolower( get_called_class() ) . "` WHERE trip = :id;");
@@ -75,7 +93,12 @@ class Signup extends DataObject {
     
     function getUserObject()
     {
-        return User::getById( $this->user );   
+        $user = User::getById( $this->user );
+        if($user === false)
+        {
+            $user = new AnonymousUser();   
+        }
+        return $user;   
     }
     
     function getBorrowGear()

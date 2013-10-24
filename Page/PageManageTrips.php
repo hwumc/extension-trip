@@ -110,6 +110,7 @@ class PageManageTrips extends PageBase
             $g->setEndDate( WebRequest::post( "enddate" ) );
             $g->setPrice( WebRequest::post( "price" ) );
             $g->setSpaces( WebRequest::post( "spaces" ) );
+            $g->setDriverPlaces( WebRequest::post( "driverplaces" ) );
             $g->setSignupClose( WebRequest::post( "signupclose" ) );
             
             $meal = WebRequest::post( "hasmeal" );
@@ -130,6 +131,7 @@ class PageManageTrips extends PageBase
             $this->mSmarty->assign( "description", $g->getDescription() );
             $this->mSmarty->assign( "price", $g->getPrice() );
             $this->mSmarty->assign( "spaces", $g->getSpaces() );
+            $this->mSmarty->assign( "driverplaces", $g->getDriverPlaces() );
             $this->mSmarty->assign( "signupclose", $g->getSignupClose() );
             $this->mSmarty->assign( "hasmeal", $g->getHasMeal() ? 'checked' : '');
             
@@ -221,6 +223,7 @@ class PageManageTrips extends PageBase
             $g->setEndDate( WebRequest::post( "enddate" ) );
             $g->setPrice( WebRequest::post( "price" ) );
             $g->setSpaces( WebRequest::post( "spaces" ) );
+            $g->setDriverPlaces( WebRequest::post( "driverplaces" ) );
             $g->setSignupClose( WebRequest::post( "signupclose" ) );
             
             $meal = WebRequest::post( "hasmeal" );
@@ -243,6 +246,7 @@ class PageManageTrips extends PageBase
             $this->mSmarty->assign( "description", "" );
             $this->mSmarty->assign( "price", "" );
             $this->mSmarty->assign( "spaces", "" );
+            $this->mSmarty->assign( "driverplaces", "" );
             $this->mSmarty->assign( "signupclose", "" );
             $this->mSmarty->assign( "hasmeal", "" );
             
@@ -255,8 +259,10 @@ class PageManageTrips extends PageBase
     private function signupMode( $data ) {
 	    self::checkAccess('tripmanager-signup');
         
-		$g = Trip::getById( $data[ 1 ] );
-        $signups = Signup::getByTrip( $g->getId() );
+		$g = Trip::getById( $data[ 1 ] );                
+        
+        $helper = new SignupListHelper($g);
+        $signups = $helper->getPrioritisedSignups();
         
 		$this->mBasePage = "managetrips/tripsignup.tpl";
         $this->mSmarty->assign( "trip", $g );
@@ -281,7 +287,8 @@ class PageManageTrips extends PageBase
             
             if( $userid !== false && array_key_exists( $userid, $users ) )
             {
-                $signups = Signup::getByTrip( $g->getId() );
+                $helper = new SignupListHelper($g);
+                $signups = $helper->getRealSignups();
                 $user = $users[ $userid ];
                 
                 $this->mSmarty->assign( "trip", $g );

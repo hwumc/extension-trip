@@ -46,6 +46,9 @@
     <Compile Include="Page\PageManageTrips.php">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SignupListHelper.php">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TripHardStatus.php">
       <SubType>Code</SubType>
     </Compile>

@@ -87,6 +87,13 @@
 			</div>
 		</div>	
 		<div class="control-group">
+			<label class="control-label" for="driverplaces">{message name="{$pageslug}-create-driverplaces"}</label>
+			<div class="controls">
+				<input class="input-medium" type="text" id="driverplaces" name="driverplaces" placeholder="{message name="{$pageslug}-create-driverplaces-placeholder"}" required="true" value="{$driverplaces}" {if $allowEdit == "false"}disabled="true" {/if}/>
+				<span class="help-inline">{message name="{$pageslug}-create-driverplaces-help"}</span>
+			</div>
+		</div>	
+		<div class="control-group">
 			<label class="control-label" for="signupclose">{message name="{$pageslug}-create-signupclose"}</label>
 			<div class="controls">
 				<input class="input-medium" type="text" id="signupclose" name="signupclose" placeholder="{message name="{$pageslug}-create-signupclose-placeholder"}" data-date-format="dd/mm/yyyy" required="true" value="{$signupclose}" {if $allowEdit == "false"}disabled="true" {/if}/>
