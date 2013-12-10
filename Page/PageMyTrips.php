@@ -14,15 +14,10 @@ class PageMyTrips extends PageBase
 		$this->mSmarty->assign("allowSignup", 'false');
         $this->mSmarty->assign("allowViewList", 'true');
         
-		$this->mBasePage = "trips/list.tpl";
+		$this->mBasePage = "mytrips/list.tpl";
         $signups = Signup::getByUser(Session::getLoggedInUser());
-        $filteredtrips = array();
-        foreach ($signups as $t)
-        {
-            $filteredtrips[] = $t->getTripObject();
-        }
         
-		$this->mSmarty->assign("triplist", $filteredtrips );
+		$this->mSmarty->assign("triplist", $signups );
 	}
 
     protected function signupMode( $data )

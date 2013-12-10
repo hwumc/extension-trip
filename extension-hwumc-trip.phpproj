@@ -59,6 +59,7 @@
     <Folder Include="Page\" />
     <Folder Include="Templates\" />
     <Folder Include="Templates\managetrips\" />
+    <Folder Include="Templates\mytrips\" />
     <Folder Include="Templates\trips" />
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +90,8 @@
     <Content Include="Templates\managetrips\list.tpl">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Templates\mytrips\list.tpl" />
+    <Content Include="Templates\mytrips\item.tpl" />
     <Content Include="Templates\trips\signuplist.tpl">
       <SubType>Content</SubType>
     </Content>
