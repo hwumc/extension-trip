@@ -31,6 +31,7 @@ class HwumcTripExtension extends Extension
 	{
         Hooks::register( "BuildPageSearchPaths", array("HwumcTripHooks","buildPageSearchPaths"));
         Hooks::register( "PostSetupSmarty", array("HwumcTripHooks","smartySetup"));
+        Hooks::register( "PreCreatePersonalMenu", array("HwumcTripHooks","addPersonalMenuItems"));
 	}
 	
 

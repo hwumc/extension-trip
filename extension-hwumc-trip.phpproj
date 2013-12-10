@@ -91,6 +91,7 @@
     <Content Include="Templates\trips\signuplist.tpl">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Templates\trips\tripitem.tpl" />
     <Content Include="Templates\trips\tripsignup.tpl">
       <SubType>Content</SubType>
     </Content>

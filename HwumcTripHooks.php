@@ -19,4 +19,23 @@ class HwumcTripHooks
         
         return $smarty;
     }
+    
+    public static function addPersonalMenuItems( $menu ) {
+        global $cScriptPath;
+        
+		$menu = $menu[0];
+		
+        //if( !isset($menu['trip']) )
+        //{
+        //    $menu['trip'] = array();
+        //}
+        
+        //$menu['trip']['mytrips'] = array(
+        //    "displayname" => "trips-mytrips",
+        //    "link" => $cScriptPath . "/MyTrips",
+        //    "icon" => "icon-road"
+        //    );
+        
+		return $menu;
+	}
 }
