@@ -49,6 +49,10 @@ class PageManageTrips extends PageBase
                     $this->deleteSignupMode( $data );
 					return;
 					break;
+                case "archives":
+                    $this->archivesMode( $data );
+					return;
+					break;
 			}
 	
 		}
@@ -81,14 +85,16 @@ class PageManageTrips extends PageBase
 			$this->mSmarty->assign("allowSignup", 'false');
 		}
 		
+        $this->mSmarty->assign("archiveMode", 'false');
+        
 		$this->mBasePage = "managetrips/list.tpl";
 		
         $trips = array();
-        foreach(Trip::getArray() as $t)
+        foreach(Trip::getArray() as $id => $t)
         {
             if($t->getStatus() != TripHardStatus::ARCHIVED)
             {
-                $trips[] = $t;   
+                $trips[$id] = $t;   
             }
         }
         
@@ -345,4 +351,34 @@ class PageManageTrips extends PageBase
 			$this->mBasePage = "managetrips/tripdeletesignup.tpl";
 		}
 	}
+
+    private function archivesMode( $data )
+    {
+        $this->mBasePage = "managetrips/list.tpl";
+		
+        $trips = array();
+        foreach(Trip::getArray() as $id => $t)
+        {
+            if($t->getStatus() == TripHardStatus::ARCHIVED)
+            {
+                $trips[$id] = $t;
+            }
+        }
+                
+		try {
+			self::checkAccess('tripmanager-edit');
+			$this->mSmarty->assign("allowEdit", 'true');
+		}
+        catch(AccessDeniedException $ex) { 
+			$this->mSmarty->assign("allowEdit", 'false');
+		}
+        
+	    $this->mSmarty->assign("allowCreate", 'false');
+	    $this->mSmarty->assign("allowDelete", 'false');
+	    $this->mSmarty->assign("allowSignup", 'false');
+        
+        $this->mSmarty->assign("archiveMode", 'true');
+        
+		$this->mSmarty->assign("triplist", $trips );
+    }
 }

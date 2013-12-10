@@ -1,8 +1,15 @@
 {extends file="base.tpl"}
 {block name="body"}
+<div class="btn-group">
 {if $allowCreate == "true"}
-	<p><a href="{$cScriptPath}/{$pageslug}/create" class="btn btn-success">{message name="{$pageslug}-button-create"}</a></p>
+	<a href="{$cScriptPath}/{$pageslug}/create" class="btn btn-success">{message name="{$pageslug}-button-create"}</a>
 {/if}
+{if $archiveMode == "false"}
+	<a href="{$cScriptPath}/{$pageslug}/archives" class="btn btn-info">{message name="{$pageslug}-button-viewarchive"}</a>
+{else}
+	<a href="{$cScriptPath}/{$pageslug}" class="btn btn-info">{message name="{$pageslug}-button-exitarchive"}</a>
+{/if}
+</div>
 	<p>
 		<table class="table table-hover">
 			<thead>
@@ -12,7 +19,7 @@
 					<th>{message name="{$pageslug}-text-week"}</th>
 					<th>{message name="{$pageslug}-text-location"}</th>
 					<th>{message name="{$pageslug}-text-status"}</th>
-					{if $allowEdit == "true"}<th>{message name="{$pageslug}-text-edit"}</th>{/if}
+					{if $allowEdit == "true" && $archiveMode != "true"}<th>{message name="{$pageslug}-text-edit"}</th>{/if}
 					{if $allowSignup == "true"}<th>{message name="{$pageslug}-text-signup"}</th>{/if}
 					{if $allowDelete == "true"}<th>{message name="{$pageslug}-text-delete"}</th>{/if}
 				</tr>
@@ -31,7 +38,7 @@
 							{$trip->getStatus()|escape}
 						{/if}
 					</td>
-					{if $allowEdit == "true"}<td><a href="{$cScriptPath}/{$pageslug}/edit/{$tripid}" class="btn btn-small btn-warning">{message name="{$pageslug}-button-editrip"}</a></td>{/if}
+					{if $allowEdit == "true" && $archiveMode != "true"}<td><a href="{$cScriptPath}/{$pageslug}/edit/{$tripid}" class="btn btn-small btn-warning">{message name="{$pageslug}-button-editrip"}</a></td>{/if}
 					{if $allowSignup == "true"}
 						<td>
 							{if $trip->getStatus() != TripHardStatus::NEWTRIP && $trip->getStatus() != TripHardStatus::PUBLISHED }
