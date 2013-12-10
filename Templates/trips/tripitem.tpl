@@ -1,27 +1,29 @@
 ﻿<tr{if $trip->getStatus() == "open"} class="success"{/if}{if $trip->getStatus() == "cancelled"} class="error"{/if}>
 	<th rowspan="3">Week {$trip->getWeek()|escape}, Semester {$trip->getSemester()|escape} {$trip->getYear()|escape}</th>
-	<td colspan="2">{message name="{$pageslug}-text-price"}: &pound;{$trip->getPrice()|escape}</td>
-	<td>{message name="{$pageslug}-text-spaces"}: {$trip->getSpaces()|escape}</td>
-	<td>{message name="{$pageslug}-text-startdate"}: {$trip->getStartDate()|escape}</td>
-	<td>{message name="{$pageslug}-text-enddate"}: {$trip->getEndDate()|escape}</td>
+	<td colspan="2">{message name="Trips-text-price"}: &pound;{$trip->getPrice()|escape}</td>
+	<td>{message name="Trips-text-spaces"}: {$trip->getSpaces()|escape}</td>
+	<td>{message name="Trips-text-startdate"}: {$trip->getStartDate()|escape}</td>
+	<td>{message name="Trips-text-enddate"}: {$trip->getEndDate()|escape}</td>
 </tr>
 <tr{if $trip->getStatus() == "open"} class="success"{/if}{if $trip->getStatus() == "cancelled"} class="error"{/if}>
 	<td colspan="3">{$trip->getLocation()|escape}</td>
-	<td>{message name="{$pageslug}-text-registerby"}: {$trip->getSignupClose()|escape}</td>
+	<td>{message name="Trips-text-registerby"}: {$trip->getSignupClose()|escape}</td>
 	<td>
-		{if $allowSignup == "true"}
+		{if $allowViewList == "true"}
 			{if $trip->getStatus() == "open"}
-				<a href="{$cScriptPath}/{$pageslug}/signup/{$trip->getId()}" {if $trip->isUserSignedUp( $currentUser->getId() ) !== false}class="btn btn-primary">{message name="{$pageslug}-button-editsignup"}{else}class="btn btn-success">{message name="{$pageslug}-button-signup"}{/if}</a>
-				<a href="{$cScriptPath}/{$pageslug}/list/{$trip->getId()}" class="btn">{message name="{$pageslug}-button-viewlist"}</a>
+				{if $allowSignup == "true"}
+					<a href="{$cScriptPath}/Trips/signup/{$trip->getId()}" {if $trip->isUserSignedUp( $currentUser->getId() ) !== false}class="btn btn-primary">{message name="Trips-button-editsignup"}{else}class="btn btn-success">{message name="Trips-button-signup"}{/if}</a>
+				{/if}
+				<a href="{$cScriptPath}/Trips/list/{$trip->getId()}" class="btn">{message name="Trips-button-viewlist"}</a>
 			{else}
 				{if $trip->getStatus() != "published"}
-					<a href="{$cScriptPath}/{$pageslug}/list/{$trip->getId()}" class="btn{if $trip->getStatus() == "cancelled"} btn-danger{/if}">{message name="{$pageslug}-tripstatusmessage-{$trip->getStatus()}"}{message name="{$pageslug}-button-signuplist"}</a>
+					<a href="{$cScriptPath}/Trips/list/{$trip->getId()}" class="btn{if $trip->getStatus() == "cancelled"} btn-danger{/if}">{message name="Trips-tripstatusmessage-{$trip->getStatus()}"}{message name="Trips-button-signuplist"}</a>
 				{else}
-					{message name="{$pageslug}-tripstatusmessage-{$trip->getStatus()}"}
+					{message name="Trips-tripstatusmessage-{$trip->getStatus()}"}
 				{/if}
 			{/if}
 		{else}
-			{message name="{$pageslug}-tripstatusmessage-{$trip->getStatus()}"}
+			{message name="Trips-tripstatusmessage-{$trip->getStatus()}"}
 		{/if}
 	</td>
 </tr>

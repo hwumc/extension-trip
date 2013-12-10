@@ -2,51 +2,24 @@
 // check for invalid entry point
 if(!defined("HMS")) die("Invalid entry point");
 
-class PageTrips extends PageBase
+class PageMyTrips extends PageBase
 {
 	public function __construct()
 	{
-		$this->mMenuGroup = "Trips";
-        $this->mPageRegisteredRights = array( "trips-signup", "trips-list" );
+        $this->mIsSpecialPage = true;
 	}
 
 	protected function runPage()
 	{
-        $data = explode( "/", WebRequest::pathInfoExtension() );
-		if( isset( $data[0] ) ) {
-			switch( $data[0] ) {
-				case "signup":
-					$this->signupMode( $data );
-					return;
-					break;
-				case "list":
-					$this->listMode( $data );
-					return;
-					break;
-			}
-            
-		}
-		
-		// try to get more access than we may have.
-		try	{
-			self::checkAccess('trips-signup');
-			$this->mSmarty->assign("allowSignup", 'true');
-			$this->mSmarty->assign("allowViewList", 'true');
-		}
-        catch(AccessDeniedException $ex) { 
-			$this->mSmarty->assign("allowSignup", 'false');
-			$this->mSmarty->assign("allowViewList", 'false');
-		} 
+		$this->mSmarty->assign("allowSignup", 'false');
+        $this->mSmarty->assign("allowViewList", 'true');
         
 		$this->mBasePage = "trips/list.tpl";
-		$trips = Trip::getArray();
+        $signups = Signup::getByUser(Session::getLoggedInUser());
         $filteredtrips = array();
-        foreach ($trips as $t)
+        foreach ($signups as $t)
         {
-            if($t->getStatus() != TripHardStatus::NEWTRIP && $t->getStatus() != TripHardStatus::ARCHIVED )
-            {
-                $filteredtrips[] = $t;
-            }
+            $filteredtrips[] = $t->getTripObject();
         }
         
 		$this->mSmarty->assign("triplist", $filteredtrips );
@@ -56,8 +29,6 @@ class PageTrips extends PageBase
     { 
         global $cScriptPath;
 		self::checkAccess('trips-signup');
-        
-        $this->mSmarty->assign("allowViewList", 'true');
         
 		$g = Trip::getById( $data[ 1 ] );
         $user = User::getLoggedIn();
@@ -121,8 +92,6 @@ class PageTrips extends PageBase
     protected function listMode( $data )
     {
 		self::checkAccess('trips-list');
-        
-        $this->mSmarty->assign("allowViewList", 'false');
         
 		$g = Trip::getById( $data[ 1 ] );
         $this->mBasePage = "trips/signuplist.tpl";

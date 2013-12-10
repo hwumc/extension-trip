@@ -25,16 +25,16 @@ class HwumcTripHooks
         
 		$menu = $menu[0];
 		
-        //if( !isset($menu['trip']) )
-        //{
-        //    $menu['trip'] = array();
-        //}
+        if( !isset($menu['trip']) )
+        {
+            $menu['trip'] = array();
+        }
         
-        //$menu['trip']['mytrips'] = array(
-        //    "displayname" => "trips-mytrips",
-        //    "link" => $cScriptPath . "/MyTrips",
-        //    "icon" => "icon-road"
-        //    );
+        $menu['trip']['mytrips'] = array(
+            "displayname" => "trips-mytrips",
+            "link" => $cScriptPath . "/MyTrips",
+            "icon" => "icon-road"
+            );
         
 		return $menu;
 	}

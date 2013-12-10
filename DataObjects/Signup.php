@@ -49,18 +49,18 @@ class Signup extends DataObject {
     
     public static function getByUser($id) {
 		global $gDatabase;
-		$statement = $gDatabase->prepare("SELECT * FROM `" . strtolower( get_called_class() ) . "` WHERE user = :id LIMIT 1;");
+		$statement = $gDatabase->prepare("SELECT * FROM `" . strtolower( get_called_class() ) . "` WHERE user = :id;");
 		$statement->bindParam(":id", $id);
 
 		$statement->execute();
 
-		$resultObject = $statement->fetchObject( get_called_class() );
+		$resultObject = $statement->fetchAll( PDO::FETCH_CLASS , get_called_class() );
 
-		if($resultObject != false)
-		{
-			$resultObject->isNew = false;
-		}
-
+        foreach ($resultObject as $r)
+        {
+            $r->isNew = false;
+        }
+        
 		return $resultObject;
 	}
     
