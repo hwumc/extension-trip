@@ -10,4 +10,5 @@ class TripHardStatus
     const CLOSED = "closed";
     const CANCELLED = "cancelled";
     const COMPLETED = "completed";
+    const ARCHIVED = "archived";
 }

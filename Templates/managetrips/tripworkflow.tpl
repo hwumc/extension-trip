@@ -35,29 +35,40 @@
 	
 	<fieldset>
 		<legend>{message name="{$pageslug}-workflow-tripstatus"}</legend>
+
 		<label class="radio">
 			<input type="radio" name="status" value="new" {if $isnew}checked{else}{if !$cannew} disabled="true"{/if}{/if}>
 			<strong>{message name="Trip-status-new"}</strong>: {message name="Trip-status-new-desc"}
 		</label>
+
 		<label class="radio">
 			<input type="radio" name="status" value="published" {if $ispublished}checked{else}{if !$canpublished} disabled="true"{/if}{/if}>
 			<strong>{message name="Trip-status-published"}</strong>: {message name="Trip-status-published-desc"}
-		</label>		
+		</label>
+
 		<label class="radio">
 			<input type="radio" name="status" value="open" {if $isopen}checked{else}{if !$canopen} disabled="true"{/if}{/if}>
 			<strong>{message name="Trip-status-open"}</strong>: {message name="Trip-status-open-desc"}
 		</label>
+
 		<label class="radio">
 			<input type="radio" name="status" value="closed" {if $isclosed}checked{else}{if !$canclosed} disabled="true"{/if}{/if}>
 			<strong>{message name="Trip-status-closed"}</strong>: {message name="Trip-status-closed-desc"}
-		</label>		
+		</label>
+
 		<label class="radio">
 			<input type="radio" name="status" value="cancelled" {if $iscancelled}checked{else}{if !$cancancelled} disabled="true"{/if}{/if}>
 			<strong>{message name="Trip-status-cancelled"}</strong>: {message name="Trip-status-cancelled-desc"}
 		</label>
+
 		<label class="radio">
 			<input type="radio" name="status" value="completed" {if $iscompleted}checked{else}{if !$cancompleted} disabled="true"{/if}{/if}>
 			<strong>{message name="Trip-status-completed"}</strong>: {message name="Trip-status-completed-desc"}
+		</label>
+		
+		<label class="radio">
+			<input type="radio" name="status" value="archived" {if $isarchived}checked{else}{if !$canarchived} disabled="true"{/if}{/if}>
+			<strong>{message name="Trip-status-archived"}</strong>: {message name="Trip-status-archived-desc"}
 		</label>
 
 	</fieldset>

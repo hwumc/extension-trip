@@ -5,20 +5,7 @@
 	<legend>{message name="{$pageslug}-trip-header"}</legend>
 	<table class="table table-striped table-bordered table-hover">
 		<tbody>
-			<tr>
-				<th rowspan="3">Week {$week|escape}, Semester {$semester|escape} {$year|escape}</th>
-				<td colspan="2">{message name="{$pageslug}-text-price"}: &pound;{$price|escape}</td>
-				<td>{message name="{$pageslug}-text-spaces"}: {$spaces|escape}</td>
-				<td>{message name="{$pageslug}-text-startdate"}: {$startdate|escape}</td>
-				<td>{message name="{$pageslug}-text-enddate"}: {$enddate|escape}</td>
-			</tr>
-			<tr>
-				<td colspan="4">{$location|escape}</td>
-				<td>{message name="{$pageslug}-text-registerby"}: {$signupclose|escape}</td>
-			</tr>
-			<tr>
-				<td colspan="5">{$description}</td>
-			</tr>
+			{include file="trips/tripitem.tpl" trip=$trip allowSignup=false}
 		</tbody>
 	</table>
 

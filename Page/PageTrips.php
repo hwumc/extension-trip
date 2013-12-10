@@ -41,7 +41,7 @@ class PageTrips extends PageBase
         $filteredtrips = array();
         foreach ($trips as $t)
         {
-            if($t->getStatus() != TripHardStatus::NEWTRIP)
+            if($t->getStatus() != TripHardStatus::NEWTRIP && $t->getStatus() != TripHardStatus::ARCHIVED )
             {
                 $filteredtrips[] = $t;
             }
@@ -100,16 +100,7 @@ class PageTrips extends PageBase
             }
             
 			$this->mBasePage = "trips/tripsignup.tpl";
-            $this->mSmarty->assign( "startdate", $g->getStartDate() );
-            $this->mSmarty->assign( "enddate", $g->getEndDate() );
-            $this->mSmarty->assign( "semester", $g->getSemester() );
-            $this->mSmarty->assign( "year", $g->getYear() );
-            $this->mSmarty->assign( "week", $g->getWeek() );
-            $this->mSmarty->assign( "location", $g->getLocation() );
-            $this->mSmarty->assign( "description", $g->getDescription() );
-            $this->mSmarty->assign( "price", $g->getPrice() );
-            $this->mSmarty->assign( "spaces", $g->getSpaces() );
-            $this->mSmarty->assign( "signupclose", $g->getSignupClose() );
+            $this->mSmarty->assign( "trip", $g );
             $this->mSmarty->assign( "hasmeal", $g->getHasMeal() );
             
 			$this->mSmarty->assign( "realname", $user->getFullName() );

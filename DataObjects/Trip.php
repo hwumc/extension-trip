@@ -220,10 +220,6 @@ class Trip extends DataObject {
             return true;
         if( $this->status == TripHardStatus::PUBLISHED )
             return true;
-        if( $this->status == TripHardStatus::CANCELLED )
-            return true;
-        if( $this->status == TripHardStatus::COMPLETED )
-            return true;
         return false;
     }
 

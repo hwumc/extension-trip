@@ -4,6 +4,12 @@
 
 <h2>{message name="{$pageslug}-signupsheet-header"}</h2>
 {message name="{$pageslug}-signupsheet-body"}
+<h3></h3>
+<table class="table table-striped table-bordered table-hover">
+	<tbody>
+		{include file="trips/tripitem.tpl" trip=$trip allowSignup="false"}
+	</tbody>
+</table>
 <h3>{message name="{$pageslug}-signupsheet-table-header"}</h3>
 <table class="table table-striped table-bordered table-hover">
 <tr>

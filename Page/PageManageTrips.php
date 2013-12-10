@@ -82,7 +82,16 @@ class PageManageTrips extends PageBase
 		}
 		
 		$this->mBasePage = "managetrips/list.tpl";
-		$trips = Trip::getArray();
+		
+        $trips = array();
+        foreach(Trip::getArray() as $t)
+        {
+            if($t->getStatus() != TripHardStatus::ARCHIVED)
+            {
+                $trips[] = $t;   
+            }
+        }
+        
 		$this->mSmarty->assign("triplist", $trips );
 	}
 	
@@ -162,8 +171,6 @@ class PageManageTrips extends PageBase
             $this->mSmarty->assign( "location", $g->getLocation() );
             $this->mSmarty->assign( "signupclose", $g->getSignupClose() );
             
-            
-            
             $this->mSmarty->assign( "isnew", $g->getRealStatus() == TripHardStatus::NEWTRIP );
             $this->mSmarty->assign( "cannew", false );
             
@@ -182,7 +189,11 @@ class PageManageTrips extends PageBase
                                             || $g->getRealStatus() == TripHardStatus::CLOSED );
             
             $this->mSmarty->assign( "iscompleted", $g->getRealStatus() == TripHardStatus::COMPLETED );
-            $this->mSmarty->assign( "cancompleted", $g->getRealStatus() == TripHardStatus::CLOSED );
+            $this->mSmarty->assign( "cancompleted", $g->getStatus() == TripHardStatus::CLOSED || $g->getRealStatus() == TripHardStatus::ARCHIVED);
+            
+            $this->mSmarty->assign( "isarchived", $g->getRealStatus() == TripHardStatus::ARCHIVED );
+            $this->mSmarty->assign( "canarchived", $g->getRealStatus() == TripHardStatus::COMPLETED
+                                            || $g->getRealStatus() == TripHardStatus::CANCELLED );
 		}
 	}
     
