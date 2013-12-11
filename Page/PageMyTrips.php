@@ -11,7 +11,7 @@ class PageMyTrips extends PageBase
 
 	protected function runPage()
 	{
-		$this->mSmarty->assign("allowSignup", 'false');
+		$this->mSmarty->assign("allowSignup", 'true');
         $this->mSmarty->assign("allowViewList", 'true');
         
 		$this->mBasePage = "mytrips/list.tpl";
