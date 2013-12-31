@@ -68,6 +68,10 @@ class Trip extends DataObject {
         return $this->year;
     }
     
+    function getYearDisplay() {
+        return $this->year . "/" . ($this->year + 1);
+    }
+    
     function setWeek($week) {
         $this->week = $week;
     }

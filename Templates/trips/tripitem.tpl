@@ -1,5 +1,5 @@
 ﻿<tr{if $trip->getStatus() == "open"} class="success"{/if}{if $trip->getStatus() == "cancelled"} class="error"{/if}>
-	<th rowspan="3">Week {$trip->getWeek()|escape}, Semester {$trip->getSemester()|escape} {$trip->getYear()|escape}</th>
+	<th rowspan="3">Week {$trip->getWeek()|escape}, Semester {$trip->getSemester()|escape} {$trip->getYearDisplay()|escape}</th>
 	<td colspan="2">{message name="Trips-text-price"}: &pound;{$trip->getPrice()|escape}</td>
 	<td>{message name="Trips-text-spaces"}: {$trip->getSpaces()|escape}</td>
 	<td>{message name="Trips-text-startdate"}: {$trip->getStartDate()|escape}</td>

@@ -19,7 +19,7 @@
 					<th>{message name="{$pageslug}-text-week"}</th>
 					<th>{message name="{$pageslug}-text-location"}</th>
 					<th>{message name="{$pageslug}-text-status"}</th>
-					{if $allowEdit == "true" && $archiveMode != "true"}<th>{message name="{$pageslug}-text-edit"}</th>{/if}
+					{if $allowEdit == "true"}<th>{message name="{$pageslug}-text-edit"}</th>{/if}
 					{if $allowSignup == "true"}<th>{message name="{$pageslug}-text-signup"}</th>{/if}
 					{if $allowDelete == "true"}<th>{message name="{$pageslug}-text-delete"}</th>{/if}
 				</tr>
@@ -27,7 +27,7 @@
 			<tbody>
 				{foreach from="$triplist" item="trip" key="tripid" }
 				<tr>
-					<td>{$trip->getYear()|escape}</td>
+					<td>{$trip->getYearDisplay()|escape}</td>
 					<td>{message name="{$pageslug}-text-semester-short"}{$trip->getSemester()|escape}</td>
 					<td>{message name="{$pageslug}-text-week-short"}{$trip->getWeek()|escape}</td>
 					<th>{$trip->getLocation()|escape}</th>
@@ -38,7 +38,7 @@
 							{$trip->getStatus()|escape}
 						{/if}
 					</td>
-					{if $allowEdit == "true" && $archiveMode != "true"}<td><a href="{$cScriptPath}/{$pageslug}/edit/{$tripid}" class="btn btn-small btn-warning">{message name="{$pageslug}-button-editrip"}</a></td>{/if}
+					{if $allowEdit == "true"}<td><a href="{$cScriptPath}/{$pageslug}/edit/{$tripid}" class="btn btn-small btn-warning">{message name="{$pageslug}-button-editrip"}</a></td>{/if}
 					{if $allowSignup == "true"}
 						<td>
 							{if $trip->getStatus() != TripHardStatus::NEWTRIP && $trip->getStatus() != TripHardStatus::PUBLISHED }
