@@ -18,8 +18,8 @@
 {/block}
 {block name="pagedescription"}{/block}
 {block name="body"}
-<script src="/scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="/scripts/bootstrap-datepicker.js" type="text/javascript"></script>
+<script src="{$cWebPath}/scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="{$cWebPath}/scripts/bootstrap-datepicker.js" type="text/javascript"></script>
 
 <form class="form-horizontal" method="post">
 	<legend>{message name="{$pageslug}-create-header"}</legend>
