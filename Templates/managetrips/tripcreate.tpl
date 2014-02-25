@@ -18,8 +18,6 @@
 {/block}
 {block name="pagedescription"}{/block}
 {block name="body"}
-<script src="{$cWebPath}/scripts/jquery-1.9.1.min.js" type="text/javascript"></script>
-<script src="{$cWebPath}/scripts/bootstrap-datepicker.js" type="text/javascript"></script>
 
 <form class="form-horizontal" method="post">
 	<legend>{message name="{$pageslug}-create-header"}</legend>
@@ -54,16 +52,25 @@
 		<div class="control-group">
 			<label class="control-label" for="startdate">{message name="{$pageslug}-create-startdate"}</label>
 			<div class="controls">
-				<input class="input-medium" type="text" id="startdate" placeholder="{message name="{$pageslug}-create-startdate-placeholder"}" data-date-format="dd/mm/yyyy" name="startdate" required="true" value="{$startdate}" {if $allowEdit == "false"}disabled="true" {/if} />
-				 
-				<span class="help-inline">{message name="{$pageslug}-create-startdate-help"}</span>
+				<div id="startDatePicker" class="input-append date">
+					<input data-format="dd/MM/yyyy" type="text" id="startdate" placeholder="{message name="{$pageslug}-create-startdate-placeholder"}" class="input-medium" name="startdate" required="true" value="{$startdate}" {if $allowEdit == "false"}disabled="true" {/if}></input>
+					<span class="add-on">
+						<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+					</span>
+				</div>
 			</div>
 		</div>	
+
 		<div class="control-group">
 			<label class="control-label" for="enddate">{message name="{$pageslug}-create-enddate"}</label>
 			<div class="controls">
-				<input class="input-medium" type="text" id="enddate" name="enddate" placeholder="{message name="{$pageslug}-create-enddate-placeholder"}" data-date-format="dd/mm/yyyy"  required="true" value="{$enddate}" {if $allowEdit == "false"}disabled="true" {/if}/>
-				<span class="help-inline">{message name="{$pageslug}-create-enddate-help"}</span>
+				<div id="endDatePicker" class="input-append date">
+					<input class="input-medium" type="text" id="enddate" name="enddate" placeholder="{message name="{$pageslug}-create-enddate-placeholder"}" data-format="dd/MM/yyyy"  required="true" value="{$enddate}" {if $allowEdit == "false"}disabled="true" {/if}/>
+					<span class="add-on">
+						<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+					</span>
+					<span class="help-inline">{message name="{$pageslug}-create-enddate-help"}</span>
+				</div>
 			</div>
 		</div>
 	</fieldset>
@@ -93,13 +100,33 @@
 				<span class="help-inline">{message name="{$pageslug}-create-driverplaces-help"}</span>
 			</div>
 		</div>	
+
+		<div class="control-group">
+			<label class="control-label" for="signupopen">{message name="{$pageslug}-create-signupopen"}</label>
+			<div class="controls">
+				<div id="signupOpenPicker" class="input-append date">
+					<input class="input-medium" type="text" id="signupopen" name="signupopen" placeholder="{message name="{$pageslug}-create-signupopen-placeholder"}" data-format="dd/MM/yyyy hh:mm:ss"  required="true" value="{$signupopen}" {if $allowEdit == "false"}disabled="true" {/if}/>
+					<span class="add-on">
+						<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+					</span>
+				</div>
+				<span class="help-inline">{message name="{$pageslug}-create-signupopen-help"}</span>
+			</div>
+		</div>
+
 		<div class="control-group">
 			<label class="control-label" for="signupclose">{message name="{$pageslug}-create-signupclose"}</label>
 			<div class="controls">
-				<input class="input-medium" type="text" id="signupclose" name="signupclose" placeholder="{message name="{$pageslug}-create-signupclose-placeholder"}" data-date-format="dd/mm/yyyy" required="true" value="{$signupclose}" {if $allowEdit == "false"}disabled="true" {/if}/>
+				<div id="signupClosePicker" class="input-append date">
+					<input class="input-medium" type="text" id="signupclose" name="signupclose" placeholder="{message name="{$pageslug}-create-signupclose-placeholder"}" data-format="dd/MM/yyyy hh:mm:ss"  required="true" value="{$signupclose}" {if $allowEdit == "false"}disabled="true" {/if}/>
+					<span class="add-on">
+						<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+					</span>
+				</div>
 				<span class="help-inline">{message name="{$pageslug}-create-signupclose-help"}</span>
 			</div>
-		</div>	
+		</div>
+
 		<div class="control-group">
 			<div class="controls">
 				<label class="control-label" for="hasmeal">
@@ -115,12 +142,33 @@
 		</div>
 	</div>
 </form>
-<script>
-$(function(){
-	window.prettyPrint && prettyPrint();
-	$('#startdate').datepicker();
-	$('#enddate').datepicker();
-	$('#signupclose').datepicker();
-});
-</script>
+{/block}
+{block name="scriptfooter"}
+    <script type="text/javascript">
+  $(function() {
+    $('#startDatePicker').datetimepicker({
+      language: 'en-GB',
+	  pickTime: false
+    });
+  });
+
+  $(function() {
+    $('#endDatePicker').datetimepicker({
+      language: 'en-GB',
+	  pickTime: false
+    });
+  });
+  
+  $(function() {
+    $('#signupClosePicker').datetimepicker({
+      language: 'en-GB'
+    });
+  });
+  
+  $(function() {
+    $('#signupOpenPicker').datetimepicker({
+      language: 'en-GB'
+    });
+  });
+    </script>
 {/block}

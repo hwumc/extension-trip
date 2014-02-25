@@ -16,6 +16,7 @@ class Trip extends DataObject {
     protected $spaces;
     protected $status;
     protected $signupclose;
+    protected $signupopen;
     protected $hasmeal;
     protected $driverplaces;
     
@@ -129,13 +130,20 @@ class Trip extends DataObject {
     function getStatus() {
         if($this->status == TripHardStatus::OPEN)
         {
-            $date = new DateTime($this->signupclose);
-            $date->add(DateInterval::createFromDateString('1 day'));
-            
-            if($date->format('U') < time())
+            $closedate = new DateTime($this->signupclose);
+                      
+            if($closedate->format('U') < time())
             {
                 return TripHardStatus::CLOSED;
             }
+            
+            $opendate = new DateTime($this->signupopen);
+            
+            if($opendate->format('U') > time())
+            {
+                return TripHardStatus::PUBLISHED;
+            }
+            
         }
         
         return $this->status;
@@ -146,11 +154,25 @@ class Trip extends DataObject {
     }
     
     function setSignupClose($signupclose) {
-        $this->signupclose = DateTime::createFromFormat("d/m/Y", $signupclose)->format("Y-m-d");
+        $this->signupclose = DateTime::createFromFormat("d/m/Y H:i:s", $signupclose)->format("Y-m-d H:i:s");
     }
     
     function getSignupClose() {
-        return DateTime::createFromFormat("Y-m-d", $this->signupclose)->format("d/m/Y");
+        return DateTime::createFromFormat("Y-m-d H:i:s", $this->signupclose)->format("d/m/Y H:i:s");
+    }
+    
+    function setSignupOpen($signupopen) {
+        $this->signupopen = DateTime::createFromFormat("d/m/Y H:i:s", $signupopen)->format("Y-m-d H:i:s");
+    }
+    
+    function getSignupOpen() {
+        $date = DateTime::createFromFormat("Y-m-d H:i:s", $this->signupopen);
+        if($date == false)
+        {
+            return "";   
+        }
+        
+        return $date->format("d/m/Y H:i:s");
     }
      
     function getHasMeal()
@@ -169,7 +191,7 @@ class Trip extends DataObject {
 
 		if($this->isNew)
 		{ // insert
-			$statement = $gDatabase->prepare("INSERT INTO `" . strtolower( get_called_class() ) . "` VALUES (null, :startdate, :enddate, :semester, :week, :year, :location, :description, :price, :spaces, :status, :signupclose, :hasmeal, :driverplaces);");
+			$statement = $gDatabase->prepare("INSERT INTO `" . strtolower( get_called_class() ) . "` VALUES (null, :startdate, :enddate, :semester, :week, :year, :location, :description, :price, :spaces, :status, :signupclose, :hasmeal, :driverplaces, :signupopen);");
             $statement->bindParam(":startdate", $this->startdate);
             $statement->bindParam(":enddate", $this->enddate);
             $statement->bindParam(":semester", $this->semester);
@@ -183,6 +205,7 @@ class Trip extends DataObject {
             $statement->bindParam(":signupclose", $this->signupclose);
             $statement->bindParam(":hasmeal", $this->hasmeal);
             $statement->bindParam(":driverplaces", $this->driverplaces);
+            $statement->bindParam(":signupopen", $this->signupopen);
             
 			if($statement->execute())
 			{
@@ -196,7 +219,7 @@ class Trip extends DataObject {
 		}
 		else
 		{ // update
-            $statement = $gDatabase->prepare("UPDATE `" . strtolower( get_called_class() ) . "` SET startdate = :startdate, enddate = :enddate, semester = :semester, year = :year, week = :week, location = :location, description = :description, price = :price, spaces = :spaces, status = :status, signupclose = :signupclose, hasmeal = :hasmeal, driverplaces = :driverplaces WHERE id = :id LIMIT 1;");
+            $statement = $gDatabase->prepare("UPDATE `" . strtolower( get_called_class() ) . "` SET startdate = :startdate, enddate = :enddate, semester = :semester, year = :year, week = :week, location = :location, description = :description, price = :price, spaces = :spaces, status = :status, signupclose = :signupclose, hasmeal = :hasmeal, driverplaces = :driverplaces, signupopen = :signupopen WHERE id = :id LIMIT 1;");
 			$statement->bindParam(":id", $this->id);
             $statement->bindParam(":startdate", $this->startdate);
             $statement->bindParam(":enddate", $this->enddate);
@@ -211,6 +234,7 @@ class Trip extends DataObject {
             $statement->bindParam(":signupclose", $this->signupclose);
             $statement->bindParam(":hasmeal", $this->hasmeal);
             $statement->bindParam(":driverplaces", $this->driverplaces);
+            $statement->bindParam(":signupopen", $this->signupopen);
 
 			if(!$statement->execute())
 			{

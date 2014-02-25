@@ -127,6 +127,7 @@ class PageManageTrips extends PageBase
             $g->setSpaces( WebRequest::post( "spaces" ) );
             $g->setDriverPlaces( WebRequest::post( "driverplaces" ) );
             $g->setSignupClose( WebRequest::post( "signupclose" ) );
+            $g->setSignupOpen( WebRequest::post( "signupopen" ) );
             
             $meal = WebRequest::post( "hasmeal" );
             
@@ -148,11 +149,12 @@ class PageManageTrips extends PageBase
             $this->mSmarty->assign( "spaces", $g->getSpaces() );
             $this->mSmarty->assign( "driverplaces", $g->getDriverPlaces() );
             $this->mSmarty->assign( "signupclose", $g->getSignupClose() );
+            $this->mSmarty->assign( "signupopen", $g->getSignupOpen() );
             $this->mSmarty->assign( "hasmeal", $g->getHasMeal() ? 'checked' : '');
             
             global $cWebPath;
-            $this->mScripts[] = $cWebPath . '/scripts/bootstrap-datepicker.js';
-            $this->mStyles[] = $cWebPath . '/style/datepicker.css';
+            $this->mStyles[] = $cWebPath . '/style/bootstrap-datetimepicker.min.css';
+            $this->mScripts[] = $cWebPath . '/scripts/bootstrap-datetimepicker.min.js';
 		}
 	}
 	
@@ -170,6 +172,7 @@ class PageManageTrips extends PageBase
 		} else {
 			$this->mBasePage = "managetrips/tripworkflow.tpl";
             $this->mSmarty->assign( "startdate", $g->getStartDate() );
+            $this->mSmarty->assign( "startdate", $g->getRealStartDate() );
             $this->mSmarty->assign( "enddate", $g->getEndDate() );
             $this->mSmarty->assign( "semester", $g->getSemester() );
             $this->mSmarty->assign( "year", $g->getYear() );
@@ -242,6 +245,7 @@ class PageManageTrips extends PageBase
             $g->setSpaces( WebRequest::post( "spaces" ) );
             $g->setDriverPlaces( WebRequest::post( "driverplaces" ) );
             $g->setSignupClose( WebRequest::post( "signupclose" ) );
+            $g->setSignupOpen( WebRequest::post( "signupopen" ) );
             
             $meal = WebRequest::post( "hasmeal" );
             
@@ -265,11 +269,11 @@ class PageManageTrips extends PageBase
             $this->mSmarty->assign( "spaces", "" );
             $this->mSmarty->assign( "driverplaces", "" );
             $this->mSmarty->assign( "signupclose", "" );
+            $this->mSmarty->assign( "signupopen", "" );
             $this->mSmarty->assign( "hasmeal", "" );
             
             global $cWebPath;
-            $this->mScripts[] = $cWebPath . '/scripts/bootstrap-datepicker.js';
-            $this->mStyles[] = $cWebPath . '/style/datepicker.css';
+            $this->mStyles[] = $cWebPath . '/style/bootstrap-datetimepicker.min.css';
 		}
 	}
 

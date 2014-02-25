@@ -19,7 +19,7 @@
 				{if $trip->getStatus() != "published"}
 					<a href="{$cScriptPath}/Trips/list/{$trip->getId()}" class="btn{if $trip->getStatus() == "cancelled"} btn-danger{/if}">{message name="Trips-tripstatusmessage-{$trip->getStatus()}"}{message name="Trips-button-signuplist"}</a>
 				{else}
-					{message name="Trips-tripstatusmessage-{$trip->getStatus()}"}
+					{message name="Trips-text-registerstart"}: {$trip->getSignupOpen()|escape}
 				{/if}
 			{/if}
 		{else}
