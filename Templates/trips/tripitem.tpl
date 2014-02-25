@@ -16,14 +16,18 @@
 				{/if}
 				<a href="{$cScriptPath}/Trips/list/{$trip->getId()}" class="btn">{message name="Trips-button-viewlist"}</a>
 			{else}
-				{if $trip->getStatus() != "published"}
+				{if  $trip->getStatus() == "closed" || $trip->getStatus() == "cancelled" || $trip->getStatus() == "archived" || $trip->getStatus() == "completed"}
 					<a href="{$cScriptPath}/Trips/list/{$trip->getId()}" class="btn{if $trip->getStatus() == "cancelled"} btn-danger{/if}">{message name="Trips-tripstatusmessage-{$trip->getStatus()}"}{message name="Trips-button-signuplist"}</a>
-				{else}
+				{/if}
+				{if $trip->getStatus() == "published" && $trip->getRealStatus() == "open"}
 					{if $trip->getSignupOpen() == ""}
 						{message name="Trips-tripstatusmessage-{$trip->getStatus()}"}
 					{else}
 						{message name="Trips-text-registerstart"}: {$trip->getSignupOpen()|escape} UTC
 					{/if}
+				{/if}
+				{if $trip->getRealStatus() == "published"}
+					{message name="Trips-tripstatusmessage-{$trip->getStatus()}"}
 				{/if}
 			{/if}
 		{else}
