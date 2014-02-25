@@ -105,7 +105,7 @@
 			<label class="control-label" for="signupopen">{message name="{$pageslug}-create-signupopen"}</label>
 			<div class="controls">
 				<div id="signupOpenPicker" class="input-append date">
-					<input class="input-medium" type="text" id="signupopen" name="signupopen" placeholder="{message name="{$pageslug}-create-signupopen-placeholder"}" data-format="dd/MM/yyyy hh:mm:ss"  required="true" value="{$signupopen}" {if $allowEdit == "false"}disabled="true" {/if}/>
+					<input class="input-medium" type="text" id="signupopen" name="signupopen" placeholder="{message name="{$pageslug}-create-signupopen-placeholder"}" data-format="dd/MM/yyyy hh:mm" value="{$signupopen}" {if $allowEdit == "false"}disabled="true" {/if}/>
 					<span class="add-on">
 						<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
 					</span>
@@ -118,7 +118,7 @@
 			<label class="control-label" for="signupclose">{message name="{$pageslug}-create-signupclose"}</label>
 			<div class="controls">
 				<div id="signupClosePicker" class="input-append date">
-					<input class="input-medium" type="text" id="signupclose" name="signupclose" placeholder="{message name="{$pageslug}-create-signupclose-placeholder"}" data-format="dd/MM/yyyy hh:mm:ss"  required="true" value="{$signupclose}" {if $allowEdit == "false"}disabled="true" {/if}/>
+					<input class="input-medium" type="text" id="signupclose" name="signupclose" placeholder="{message name="{$pageslug}-create-signupclose-placeholder"}" data-format="dd/MM/yyyy hh:mm"  required="true" value="{$signupclose}" {if $allowEdit == "false"}disabled="true" {/if}/>
 					<span class="add-on">
 						<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
 					</span>
@@ -161,13 +161,15 @@
   
   $(function() {
     $('#signupClosePicker').datetimepicker({
-      language: 'en-GB'
+      language: 'en-GB',
+	  pickSeconds: false
     });
   });
   
   $(function() {
     $('#signupOpenPicker').datetimepicker({
-      language: 'en-GB'
+      language: 'en-GB',
+	  pickSeconds: false
     });
   });
     </script>

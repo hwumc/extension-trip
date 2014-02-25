@@ -154,15 +154,23 @@ class Trip extends DataObject {
     }
     
     function setSignupClose($signupclose) {
-        $this->signupclose = DateTime::createFromFormat("d/m/Y H:i:s", $signupclose)->format("Y-m-d H:i:s");
+        $this->signupclose = DateTime::createFromFormat("d/m/Y H:i", $signupclose)->format("Y-m-d H:i:s");
     }
     
     function getSignupClose() {
-        return DateTime::createFromFormat("Y-m-d H:i:s", $this->signupclose)->format("d/m/Y H:i:s");
+        return DateTime::createFromFormat("Y-m-d H:i:s", $this->signupclose)->format("d/m/Y H:i");
     }
     
     function setSignupOpen($signupopen) {
-        $this->signupopen = DateTime::createFromFormat("d/m/Y H:i:s", $signupopen)->format("Y-m-d H:i:s");
+        $date = DateTime::createFromFormat("d/m/Y H:i", $signupopen);
+        if($date == false)
+        {
+            $this->signupopen = null;
+        }
+        else
+        {
+            $this->signupopen = $date->format("Y-m-d H:i:s");
+        }
     }
     
     function getSignupOpen() {
@@ -172,7 +180,7 @@ class Trip extends DataObject {
             return "";   
         }
         
-        return $date->format("d/m/Y H:i:s");
+        return $date->format("d/m/Y H:i");
     }
      
     function getHasMeal()
