@@ -379,7 +379,7 @@ class PageManageTrips extends PageBase
         
 	    $this->mSmarty->assign("allowCreate", 'false');
 	    $this->mSmarty->assign("allowDelete", 'false');
-	    $this->mSmarty->assign("allowSignup", 'false');
+	    $this->mSmarty->assign("allowSignup", 'true');
         
         $this->mSmarty->assign("archiveMode", 'true');
         
