@@ -219,11 +219,18 @@ class Trip extends DataObject {
 		}
     }
 
-    public function canDelete() {
+    public function canDelete() 
+    {
         if( $this->status == TripHardStatus::NEWTRIP )
+        {
             return true;
+        }
+        
         if( $this->status == TripHardStatus::PUBLISHED )
+        {
             return true;
+        }
+        
         return false;
     }
 
