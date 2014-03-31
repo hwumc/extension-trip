@@ -39,7 +39,7 @@ class SignupListHelper
         {
             if(count($drivers) < $driversrequired)
             {
-                if($value->getUserObject()->isDriver())
+                if($value->getUserObject()->isDriver() && $value->getDriver())
                 {
                     $drivers[] = $value;
                     $value->driverpos = true;

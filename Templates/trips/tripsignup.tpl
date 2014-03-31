@@ -87,6 +87,21 @@
 			</div>	
 		{/if}
 
+		{if $userisdriver == 1}
+			<div class="control-group">
+				<div class="controls">
+					<label class="checkbox" for="driver">
+						<input type="checkbox" id="driver" name="driver" {if $userisdriverexpired == 1}disabled{else}{$driver}{/if}/> {message name="{$pageslug}-driver-label"}
+					</label>
+					{if $userisdriverexpired == 1}
+						<div class="alert alert-error alert-block">
+							{message name="driverpermitexpired"}
+						</div>
+					{/if}
+				</div>
+			</div>	
+		{/if}
+
 		<p>{message name="{$pageslug}-signup-confirm-text"}</p>
 		<div class="control-group">
 			<div class="controls">

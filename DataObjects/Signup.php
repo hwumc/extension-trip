@@ -27,7 +27,7 @@ class Signup extends DataObject {
         $s->meal = false;
         $s->driverpos = true;
         $s->isNew = false;
-        $s->driver = false;
+        $s->driver = 0;
         
         return $s;
     }

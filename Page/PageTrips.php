@@ -80,6 +80,9 @@ class PageTrips extends PageBase
             $s->setActionPlan( WebRequest::post( "actionplan" ) );
             $s->setBorrowGear( WebRequest::post( "borrowgear" ) );
             
+            $driver = WebRequest::post( "driver" );
+            $s->setDriver( $driver == 'on' ? 1 : 0 );
+            
             $meal = WebRequest::post( "meal" );
             $s->setMeal( $meal == 'on' ? 1 : 0 );
             
@@ -94,6 +97,7 @@ class PageTrips extends PageBase
                 $this->mSmarty->assign( "actionplan", $signup->getActionPlan() );
                 $this->mSmarty->assign( "confirmcheck", "checked" );
                 $this->mSmarty->assign( "meal", $signup->getMeal() ? "checked" : "");
+                $this->mSmarty->assign( "driver", $signup->getDriver() ? "checked" : "");
             }
             else 
             {
@@ -101,6 +105,7 @@ class PageTrips extends PageBase
                 $this->mSmarty->assign( "actionplan", "" );
                 $this->mSmarty->assign( "confirmcheck", "" );
                 $this->mSmarty->assign( "meal", "checked" );
+                $this->mSmarty->assign( "driver", $user->getIsDriver() ? "checked" : "");
             }
             
 			$this->mBasePage = "trips/tripsignup.tpl";
@@ -114,6 +119,8 @@ class PageTrips extends PageBase
 			$this->mSmarty->assign( "medical", $user->getMedical() );
 			$this->mSmarty->assign( "contactname", $user->getEmergencyContact() );
 			$this->mSmarty->assign( "contactphone", $user->getEmergencyContactPhone() );
+			$this->mSmarty->assign( "userisdriver", $user->getIsDriver() );
+            $this->mSmarty->assign( "userisdriverexpired", $user->getDriverExpiry() !== null && DateTime::createFromFormat("d/m/Y", $user->getDriverExpiry()) < DateTime::createFromFormat("d/m/Y", $g->getEndDate() ) );
 			
        }
     }
