@@ -41,10 +41,14 @@ class SignupListHelper
             {
                 if($value->getUserObject()->isDriver() && $value->getDriver())
                 {
-                    $drivers[] = $value;
-                    $value->driverpos = true;
-                    
-                    continue;
+                    $driverExpiry = DateTime::createFromFormat("d/m/Y", $value->getUserObject()->getDriverExpiry());
+                    if($driverExpiry >= DateTime::createFromFormat("d/m/Y", $this->trip->getEndDate()))
+                    {
+                        $drivers[] = $value;
+                        $value->driverpos = true;
+                        
+                        continue;
+                    }
                 }
             }
             
@@ -58,7 +62,7 @@ class SignupListHelper
         
         foreach ($nondrivers as $value)
         {
-          $drivers[] = $value;
+            $drivers[] = $value;
         }
         
         
