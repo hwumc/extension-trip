@@ -24,6 +24,7 @@ class SignupListHelper
     
     public function getPrioritisedSignups()
     {
+        global $cDisplayDateFormat;
         $signups = $this->getRealSignups();
         
         $driversrequired = $this->trip->getDriverPlaces();
@@ -41,8 +42,8 @@ class SignupListHelper
             {
                 if($value->getUserObject()->isDriver() && $value->getDriver())
                 {
-                    $driverExpiry = DateTime::createFromFormat("d/m/Y", $value->getUserObject()->getDriverExpiry());
-                    if($driverExpiry >= DateTime::createFromFormat("d/m/Y", $this->trip->getEndDate()))
+                    $driverExpiry = DateTime::createFromFormat($cDisplayDateFormat, $value->getUserObject()->getDriverExpiry());
+                    if($driverExpiry >= DateTime::createFromFormat($cDisplayDateFormat, $this->trip->getEndDate()))
                     {
                         $drivers[] = $value;
                         $value->driverpos = true;

@@ -54,6 +54,7 @@ class PageTrips extends PageBase
 
     protected function signupMode( $data )
     { 
+        global $cDisplayDateFormat;
         global $cScriptPath;
 		self::checkAccess('trips-signup');
         
@@ -120,7 +121,7 @@ class PageTrips extends PageBase
 			$this->mSmarty->assign( "contactname", $user->getEmergencyContact() );
 			$this->mSmarty->assign( "contactphone", $user->getEmergencyContactPhone() );
 			$this->mSmarty->assign( "userisdriver", $user->getIsDriver() );
-            $this->mSmarty->assign( "userisdriverexpired", $user->getDriverExpiry() !== null && DateTime::createFromFormat("d/m/Y", $user->getDriverExpiry()) < DateTime::createFromFormat("d/m/Y", $g->getEndDate() ) );
+            $this->mSmarty->assign( "userisdriverexpired", $user->getDriverExpiry() !== null && DateTime::createFromFormat($cDisplayDateFormat, $user->getDriverExpiry()) < DateTime::createFromFormat($cDisplayDateFormat, $g->getEndDate() ) );
 			
        }
     }

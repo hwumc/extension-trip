@@ -37,20 +37,28 @@ class Trip extends DataObject {
 		return $result;
 	}
     
-    function setStartDate($startdate) {
-        $this->startdate = DateTime::createFromFormat("d/m/Y", $startdate)->format("Y-m-d");
+    function setStartDate($startdate) 
+    {
+        global $cDisplayDateFormat;
+        $this->startdate = DateTime::createFromFormat($cDisplayDateFormat, $startdate)->format("Y-m-d");
     }
     
-    function getStartDate() {
-        return DateTime::createFromFormat("Y-m-d", $this->startdate)->format("d/m/Y");
+    function getStartDate() 
+    {
+        global $cDisplayDateFormat;
+        return DateTime::createFromFormat("Y-m-d", $this->startdate)->format($cDisplayDateFormat);
     }
     
-    function setEndDate($enddate) {
-        $this->enddate = DateTime::createFromFormat("d/m/Y", $enddate)->format("Y-m-d");
+    function setEndDate($enddate) 
+    {
+        global $cDisplayDateFormat;
+        $this->enddate = DateTime::createFromFormat($cDisplayDateFormat, $enddate)->format("Y-m-d");
     }
     
-    function getEndDate() {
-        return DateTime::createFromFormat("Y-m-d", $this->enddate)->format("d/m/Y");
+    function getEndDate() 
+    {
+        global $cDisplayDateFormat;
+        return DateTime::createFromFormat("Y-m-d", $this->enddate)->format($cDisplayDateFormat);
     }
     
     function setSemester($semester) {
@@ -153,16 +161,22 @@ class Trip extends DataObject {
         return $this->status;
     }
     
-    function setSignupClose($signupclose) {
-        $this->signupclose = DateTime::createFromFormat("d/m/Y H:i", $signupclose)->format("Y-m-d H:i:s");
+    function setSignupClose($signupclose) 
+    {
+        global $cDisplayDateTimeFormat;
+        $this->signupclose = DateTime::createFromFormat($cDisplayDateTimeFormat, $signupclose)->format("Y-m-d H:i:s");
     }
     
-    function getSignupClose() {
-        return DateTime::createFromFormat("Y-m-d H:i:s", $this->signupclose)->format("d/m/Y H:i");
+    function getSignupClose() 
+    {
+        global $cDisplayDateTimeFormat;
+        return DateTime::createFromFormat("Y-m-d H:i:s", $this->signupclose)->format($cDisplayDateTimeFormat);
     }
     
-    function setSignupOpen($signupopen) {
-        $date = DateTime::createFromFormat("d/m/Y H:i", $signupopen);
+    function setSignupOpen($signupopen) 
+    {
+        global $cDisplayDateTimeFormat;
+        $date = DateTime::createFromFormat($cDisplayDateTimeFormat, $signupopen);
         if($date == false)
         {
             $this->signupopen = null;
@@ -173,14 +187,16 @@ class Trip extends DataObject {
         }
     }
     
-    function getSignupOpen() {
+    function getSignupOpen() 
+    {
+        global $cDisplayDateTimeFormat;
         $date = DateTime::createFromFormat("Y-m-d H:i:s", $this->signupopen);
         if($date == false)
         {
             return "";   
         }
         
-        return $date->format("d/m/Y H:i");
+        return $date->format($cDisplayDateTimeFormat);
     }
      
     function getHasMeal()
