@@ -67,9 +67,10 @@ class Signup extends DataObject {
 	}
     
     function getTime() {
+        global $cDisplayDateTimeFormat;
         $fmt = DateTime::createFromFormat("Y-m-d H:i:s", $this->time);
         
-        return $fmt->format("H:i:s d/m/Y");
+        return $fmt->format($cDisplayDateTimeFormat);
     }
     
     function setTrip($trip) {

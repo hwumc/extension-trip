@@ -7,7 +7,7 @@
 </tr>
 <tr{if $trip->getStatus() == "open"} class="success"{/if}{if $trip->getStatus() == "cancelled"} class="error"{/if}>
 	<td colspan="3">{$trip->getLocation()|escape}</td>
-	<td>{message name="Trips-text-registerby"}: {$trip->getSignupClose()|escape} UTC</td>
+	<td>{message name="Trips-text-registerby"}: {$trip->getSignupClose()|escape}</td>
 	<td>
 		{if $allowViewList == "true"}
 			{if $trip->getStatus() == "open"}
@@ -23,7 +23,7 @@
 					{if $trip->getSignupOpen() == ""}
 						{message name="Trips-tripstatusmessage-{$trip->getStatus()}"}
 					{else}
-						{message name="Trips-text-registerstart"}: {$trip->getSignupOpen()|escape} UTC
+						{message name="Trips-text-registerstart"}: {$trip->getSignupOpen()|escape}
 					{/if}
 				{/if}
 				{if $trip->getRealStatus() == "published"}
