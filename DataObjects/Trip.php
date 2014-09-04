@@ -163,8 +163,15 @@ class Trip extends DataObject {
     
     function setSignupClose($signupclose) 
     {
-        global $cDisplayDateTimeFormat;
-        $this->signupclose = DateTime::createFromFormat($cDisplayDateTimeFormat, $signupclose)->format("Y-m-d H:i:s");
+        global $cDisplayDateTimeFormatNoTz;
+        $rawdate = DateTime::createFromFormat($cDisplayDateTimeFormatNoTz, $signupclose);
+        if($rawdate == false)
+        {
+            global $cDisplayDateTimeFormat;
+            $rawdate = DateTime::createFromFormat($cDisplayDateTimeFormat, $signupclose);
+        }
+        
+        $this->signupclose = $rawdate->format("Y-m-d H:i:s");
     }
     
     function getSignupClose() 
@@ -175,8 +182,14 @@ class Trip extends DataObject {
     
     function setSignupOpen($signupopen) 
     {
-        global $cDisplayDateTimeFormat;
-        $date = DateTime::createFromFormat($cDisplayDateTimeFormat, $signupopen);
+        global $cDisplayDateTimeFormatNoTz;
+        $date = DateTime::createFromFormat($cDisplayDateTimeFormatNoTz, $signupopen);
+        if($date == false)
+        {
+            global $cDisplayDateTimeFormat;
+            $date = DateTime::createFromFormat($cDisplayDateTimeFormat, $signupopen);
+        }
+        
         if($date == false)
         {
             $this->signupopen = null;
