@@ -4,7 +4,7 @@ if (!defined("HMS"))
     die("Invalid entry point");
 
 class Signup extends DataObject {
-   
+
     protected $trip;
     protected $user;
     protected $time;
@@ -12,10 +12,10 @@ class Signup extends DataObject {
     protected $actionplan;
     protected $meal;
     protected $driver = 0;
-        
+
     // this is *NOT* a stored variable.
     public $driverpos;
-    
+
     public static function getAnonymous($tripid)
     {
         $s = new Signup();
@@ -28,165 +28,165 @@ class Signup extends DataObject {
         $s->driverpos = true;
         $s->isNew = false;
         $s->driver = 0;
-        
+
         return $s;
     }
-    
+
     public static function getByTrip($id) {
-		global $gDatabase;
-		$statement = $gDatabase->prepare("SELECT * FROM `" . strtolower( get_called_class() ) . "` WHERE trip = :id;");
-		$statement->bindParam(":id", $id);
+        global $gDatabase;
+        $statement = $gDatabase->prepare("SELECT * FROM `" . strtolower( get_called_class() ) . "` WHERE trip = :id;");
+        $statement->bindParam(":id", $id);
 
-		$statement->execute();
+        $statement->execute();
 
-		$resultObject = $statement->fetchAll( PDO::FETCH_CLASS , get_called_class() );
+        $resultObject = $statement->fetchAll( PDO::FETCH_CLASS , get_called_class() );
 
         foreach ($resultObject as $r)
         {
             $r->isNew = false;
         }
-        
-		return $resultObject;
-	}    
-    
+
+        return $resultObject;
+    }
+
     public static function getByUser($id) {
-		global $gDatabase;
-		$statement = $gDatabase->prepare("SELECT * FROM `" . strtolower( get_called_class() ) . "` WHERE user = :id;");
-		$statement->bindParam(":id", $id);
+        global $gDatabase;
+        $statement = $gDatabase->prepare("SELECT * FROM `" . strtolower( get_called_class() ) . "` WHERE user = :id;");
+        $statement->bindParam(":id", $id);
 
-		$statement->execute();
+        $statement->execute();
 
-		$resultObject = $statement->fetchAll( PDO::FETCH_CLASS , get_called_class() );
+        $resultObject = $statement->fetchAll( PDO::FETCH_CLASS , get_called_class() );
 
         foreach ($resultObject as $r)
         {
             $r->isNew = false;
         }
-        
-		return $resultObject;
-	}
-    
+
+        return $resultObject;
+    }
+
     function getTime() {
         global $cDisplayDateTimeFormat;
         $fmt = DateTime::createFromFormat("Y-m-d H:i:s", $this->time);
-        
+
         return $fmt->format($cDisplayDateTimeFormat);
     }
-    
+
     function setTrip($trip) {
         $this->trip = $trip;
     }
-    
+
     function getTrip() {
         return $this->trip;
     }
-    
+
     function getTripObject()
     {
-        return Trip::getById( $this->trip );   
+        return Trip::getById( $this->trip );
     }
-    
+
     function setUser($user) {
         $this->user = $user;
     }
-    
+
     function getUser() {
         return $this->user;
     }
-    
+
     function getUserObject()
     {
         $user = User::getById( $this->user );
         if($user === false)
         {
-            $user = new AnonymousUser();   
+            $user = new AnonymousUser();
         }
-        return $user;   
+        return $user;
     }
-    
+
     function getBorrowGear()
     {
-        return $this->borrowgear;   
+        return $this->borrowgear;
     }
-    
+
     function setBorrowGear( $gear )
     {
-        $this->borrowgear = $gear;   
+        $this->borrowgear = $gear;
     }
-    
+
     function getActionPlan()
     {
-        return $this->actionplan;   
+        return $this->actionplan;
     }
-    
+
     function setActionPlan( $plan )
     {
-        $this->actionplan = $plan;   
+        $this->actionplan = $plan;
     }
-    
+
     function getDriver()
     {
-        return $this->driver;   
+        return $this->driver;
     }
-    
+
     function setDriver( $driver )
     {
-        $this->driver = $driver;   
+        $this->driver = $driver;
     }
-    
+
     function getMeal()
     {
         return $this->meal;
     }
-    
+
     function getMealText()
     {
         return $this->meal == 1 ? "Yes" : "No";
     }
-    
+
     function setMeal( $meal )
     {
-        $this->meal = $meal;   
+        $this->meal = $meal;
     }
-    
+
     public function save()
     {
         global $gDatabase;
 
-		if($this->isNew)
-		{ // insert
-			$statement = $gDatabase->prepare("INSERT INTO `" . strtolower( get_called_class() ) . "` VALUES (null, :user, :trip, null, :gear, :plan, :meal, :driver);");
+        if($this->isNew)
+        { // insert
+            $statement = $gDatabase->prepare("INSERT INTO `" . strtolower( get_called_class() ) . "` VALUES (null, :user, :trip, null, :gear, :plan, :meal, :driver);");
             $statement->bindParam(":user", $this->user);
             $statement->bindParam(":trip", $this->trip);
             $statement->bindParam(":gear", $this->borrowgear);
             $statement->bindParam(":plan", $this->actionplan);
             $statement->bindParam(":meal", $this->meal);
             $statement->bindParam(":driver", $this->driver);
-            
-			if($statement->execute())
-			{
-				$this->isNew = false;
-				$this->id = $gDatabase->lastInsertId();
-			}
-			else
-			{
-				throw new SaveFailedException();
-			}
-		}
-		else
-		{ // update
+
+            if($statement->execute())
+            {
+                $this->isNew = false;
+                $this->id = $gDatabase->lastInsertId();
+            }
+            else
+            {
+                throw new SaveFailedException();
+            }
+        }
+        else
+        { // update
             $statement = $gDatabase->prepare("UPDATE `" . strtolower( get_called_class() ) . "` SET borrowgear = :gear, actionplan = :plan, meal = :meal, driver = :driver WHERE id = :id;");
             $statement->bindParam(":id", $this->id);
             $statement->bindParam(":gear", $this->borrowgear);
             $statement->bindParam(":plan", $this->actionplan);
             $statement->bindParam(":meal", $this->meal);
             $statement->bindParam(":driver", $this->driver);
-            
-			if(!$statement->execute())
-			{
-				throw new SaveFailedException();
-			}
-		}
+
+            if(!$statement->execute())
+            {
+                throw new SaveFailedException();
+            }
+        }
     }
 
     public function canDelete() {
