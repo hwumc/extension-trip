@@ -96,7 +96,8 @@ class PageTrips extends PageBase
             {
                 $this->mSmarty->assign( "borrowgear", $signup->getBorrowGear() );
                 $this->mSmarty->assign( "actionplan", $signup->getActionPlan() );
-                $this->mSmarty->assign( "confirmcheck", "checked" );
+                $this->mSmarty->assign( "confirmcheck", "checked disabled" );
+                $this->mSmarty->assign( "legalagreementcheck", "checked disabled" );
                 $this->mSmarty->assign( "meal", $signup->getMeal() ? "checked" : "");
                 $this->mSmarty->assign( "driver", $signup->getDriver() ? "checked" : "");
             }
@@ -105,6 +106,7 @@ class PageTrips extends PageBase
                 $this->mSmarty->assign( "borrowgear", "" );
                 $this->mSmarty->assign( "actionplan", "" );
                 $this->mSmarty->assign( "confirmcheck", "" );
+                $this->mSmarty->assign( "legalagreementcheck", "" );
                 $this->mSmarty->assign( "meal", "checked" );
                 $this->mSmarty->assign( "driver", $user->getIsDriver() ? "checked" : "");
             }

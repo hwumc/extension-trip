@@ -111,6 +111,16 @@
 				</label>
 			</div>
 		</div>
+
+		<p>{message name="{$pageslug}-signup-legalagreement-text"}</p>
+		<div class="control-group">
+			<div class="controls">
+				<label class="checkbox">
+					<input type="checkbox" name="legalagreement" required="true"  {$legalagreementcheck}/>
+					{message name="{$pageslug}-signup-legalagreement"}
+				</label>
+			</div>
+		</div>
 	</fieldset>
 
 	<div class="control-group">
