@@ -112,7 +112,7 @@
 			</div>
 		</div>
 
-		<p>{message name="{$pageslug}-signup-legalagreement-text"}</p>
+		<p>{rawmessage name="{$pageslug}-signup-legalagreement-text"}</p>
 		<div class="control-group">
 			<div class="controls">
 				<label class="checkbox">
