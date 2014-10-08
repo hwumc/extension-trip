@@ -247,7 +247,7 @@ class Trip extends DataObject
 
         if($this->isNew)
         { // insert
-            $statement = $gDatabase->prepare("INSERT INTO `" . strtolower( get_called_class() ) . "` VALUES (null, :startdate, :enddate, :semester, :week, :year, :location, :description, :price, :spaces, :status, :signupclose, :hasmeal, :driverplaces, :signupopen);");
+            $statement = $gDatabase->prepare("INSERT INTO `trip` (startdate, enddate, semester, week, year, location, description, price, spaces, status, signupclose, hasmeal, driverplaces, signupopen) VALUES (:startdate, :enddate, :semester, :week, :year, :location, :description, :price, :spaces, :status, :signupclose, :hasmeal, :driverplaces, :signupopen);");
             $statement->bindParam(":startdate", $this->startdate);
             $statement->bindParam(":enddate", $this->enddate);
             $statement->bindParam(":semester", $this->semester);

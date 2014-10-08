@@ -155,7 +155,7 @@ class Signup extends DataObject {
 
         if($this->isNew)
         { // insert
-            $statement = $gDatabase->prepare("INSERT INTO `" . strtolower( get_called_class() ) . "` VALUES (null, :user, :trip, null, :gear, :plan, :meal, :driver);");
+            $statement = $gDatabase->prepare("INSERT INTO `signup` (user, trip, borrowgear, actionplan, meal, driver) VALUES (:user, :trip, :gear, :plan, :meal, :driver);");
             $statement->bindParam(":user", $this->user);
             $statement->bindParam(":trip", $this->trip);
             $statement->bindParam(":gear", $this->borrowgear);
