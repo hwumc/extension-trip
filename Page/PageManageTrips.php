@@ -136,6 +136,7 @@ class PageManageTrips extends PageBase
 
             global $cScriptPath;
             $this->mHeaders[] = ( "Location: " . $cScriptPath . "/ManageTrips" );
+            $this->mIsRedirecting = true;
         } else {
             $this->mBasePage = "managetrips/tripcreate.tpl";
             $this->mSmarty->assign( "startdate", $g->getStartDate() );
@@ -169,6 +170,7 @@ class PageManageTrips extends PageBase
 
             global $cScriptPath;
             $this->mHeaders[] = ( "Location: " . $cScriptPath . "/ManageTrips" );
+            $this->mIsRedirecting = true;
         } else {
             $this->mBasePage = "managetrips/tripworkflow.tpl";
             $this->mSmarty->assign( "startdate", $g->getStartDate() );
@@ -219,6 +221,7 @@ class PageManageTrips extends PageBase
 
             global $cScriptPath;
             $this->mHeaders[] =  "Location: " . $cScriptPath . "/ManageTrips";
+            $this->mIsRedirecting = true;
 
 
         } else {
@@ -254,6 +257,7 @@ class PageManageTrips extends PageBase
             global $cScriptPath;
 
             $this->mHeaders[] =  "Location: " . $cScriptPath . "/ManageTrips";
+            $this->mIsRedirecting = true;
         } else {
 
             $this->mBasePage = "managetrips/tripcreate.tpl";
@@ -323,6 +327,7 @@ class PageManageTrips extends PageBase
             global $cScriptPath;
 
             $this->mHeaders[] =  "Location: " . $cScriptPath . "/ManageTrips/signup/" . $g->getId();
+            $this->mIsRedirecting = true;
         } else {
             $this->mBasePage = "managetrips/tripemail.tpl";
             $this->mSmarty->assign( "users", $users );
@@ -349,8 +354,7 @@ class PageManageTrips extends PageBase
 
             global $cScriptPath;
             $this->mHeaders[] =  "Location: " . $cScriptPath . "/ManageTrips";
-
-
+            $this->mIsRedirecting = true;
         } else {
             $this->mBasePage = "managetrips/tripdeletesignup.tpl";
         }

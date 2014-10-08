@@ -90,6 +90,7 @@ class PageTrips extends PageBase
             $s->save();
 
             $this->mHeaders[] = ( "Location: " . $cScriptPath . "/Trips/list/" . $data[ 1 ] );
+            $this->mIsRedirecting = true;
         } else {
             $signup = $g->isUserSignedUp( $user->getId() );
             if( $signup !== false )
