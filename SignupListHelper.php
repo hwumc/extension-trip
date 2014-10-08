@@ -69,4 +69,38 @@ class SignupListHelper
 
         return $drivers;
     }
+    
+    public function getSignupStatus(User $user)
+    {
+        $driversrequired = $this->trip->getDriverPlaces();
+        $spaces = $this->trip->getSpaces();
+        
+        $prioritisedSignups = $this->getPrioritisedSignups();
+        
+        foreach ($prioritisedSignups as $signup)
+        {
+            if($driversrequired > 0)
+            {
+                $type = SignupStatus::DRIVER;
+                $driversrequired--;
+                $spaces--;
+            } 
+            elseif ($spaces > 0) 
+            {
+                $spaces--;
+                $type = SignupStatus::NORMAL;
+            }
+            else
+            {
+                $type = SignupStatus::WAITINGLIST;   
+            }
+            
+            if($signup->getUser() == $user->getId())
+            {
+                return $type;
+            }
+        }
+        
+        return SignupStatus::MISSING;
+    }
 }

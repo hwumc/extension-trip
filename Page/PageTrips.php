@@ -24,7 +24,6 @@ class PageTrips extends PageBase
                     return;
                     break;
             }
-
         }
 
         // try to get more access than we may have.
@@ -88,6 +87,25 @@ class PageTrips extends PageBase
             $s->setMeal( $meal == 'on' ? 1 : 0 );
 
             $s->save();
+            
+            $helper = new SignupListHelper($g);
+            $status = $helper->getSignupStatus($user);
+            
+            if($status == SignupStatus::DRIVER)
+            {
+                Session::appendSuccess("Signup-success-normal");   
+                Session::appendInfo("Signup-success-driver");   
+            }
+            
+            if($status == SignupStatus::WAITINGLIST)
+            {
+                Session::appendWarning("Signup-success-waitinglist");   
+            }
+            
+            if($status == SignupStatus::NORMAL)
+            {
+                Session::appendSuccess("Signup-success-normal");   
+            }
 
             $this->mHeaders[] = ( "Location: " . $cScriptPath . "/Trips/list/" . $data[ 1 ] );
             $this->mIsRedirecting = true;
