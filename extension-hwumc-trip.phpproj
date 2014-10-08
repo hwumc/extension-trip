@@ -50,6 +50,7 @@
     <Compile Include="SignupListHelper.php">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SignupStatus.php" />
     <Compile Include="TripHardStatus.php">
       <SubType>Code</SubType>
     </Compile>
