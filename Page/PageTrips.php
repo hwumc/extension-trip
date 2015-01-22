@@ -57,6 +57,10 @@ class PageTrips extends PageBase
         global $cScriptPath;
         self::checkAccess('trips-signup');
 
+        global $cWebPath;
+        $this->mStyles[] = $cWebPath . '/style/bootstrap-datetimepicker.min.css';
+        $this->mScripts[] = $cWebPath . '/scripts/bootstrap-datetimepicker.min.js';
+        
         $this->mSmarty->assign("allowViewList", 'true');
 
         $g = Trip::getById( $data[ 1 ] );
@@ -79,13 +83,18 @@ class PageTrips extends PageBase
 
             $s->setActionPlan( WebRequest::post( "actionplan" ) );
             $s->setBorrowGear( WebRequest::post( "borrowgear" ) );
-
+            
+            if($g->getShowLeaveFrom())
+            {
+                $s->setLeaveFrom( WebRequest::post( "leavefrom" ) );
+            }
+            
             $driver = WebRequest::post( "driver" );
             $s->setDriver( $driver == 'on' ? 1 : 0 );
 
             $meal = WebRequest::post( "meal" );
             $s->setMeal( $meal == 'on' ? 1 : 0 );
-
+            
             $s->save();
             
             $helper = new SignupListHelper($g);
@@ -119,6 +128,7 @@ class PageTrips extends PageBase
                 $this->mSmarty->assign( "legalagreementcheck", "checked disabled" );
                 $this->mSmarty->assign( "meal", $signup->getMeal() ? "checked" : "");
                 $this->mSmarty->assign( "driver", $signup->getDriver() ? "checked" : "");
+                $this->mSmarty->assign( "leavefrom", $signup->getLeaveFrom() );
             }
             else
             {
@@ -128,11 +138,14 @@ class PageTrips extends PageBase
                 $this->mSmarty->assign( "legalagreementcheck", "" );
                 $this->mSmarty->assign( "meal", "checked" );
                 $this->mSmarty->assign( "driver", $user->getIsDriver() ? "checked" : "");
+                $this->mSmarty->assign( "leavefrom", "");
             }
 
             $this->mBasePage = "trips/tripsignup.tpl";
             $this->mSmarty->assign( "trip", $g );
             $this->mSmarty->assign( "hasmeal", $g->getHasMeal() );
+            
+            $this->mSmarty->assign( "showleavefrom", $g->getShowLeaveFrom() );
 
             $this->mSmarty->assign( "realname", $user->getFullName() );
             $this->mSmarty->assign( "mobile", $user->getMobile() );

@@ -134,6 +134,14 @@
 				</label>
 			</div>
 		</div>	
+
+        <div class="control-group">
+            <div class="controls">
+                <label class="control-label" for="showleavefrom">
+                    <input type="checkbox" id="showleavefrom" name="showleavefrom" {$showleavefrom} {if $allowedit == "false" }disabled="true" {/if}/> {message name="{$pageslug}-create-showleavefrom"}
+                </label>
+            </div>
+        </div>	
 	</fieldset>
 	
 	<div class="control-group">

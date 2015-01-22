@@ -87,6 +87,20 @@
 			</div>	
 		{/if}
 
+		{if $showleavefrom == 1}
+			<div class="control-group">
+				<label class="control-label" for="leavefrom">{message name="{$pageslug}-leavefrom-label"}</label>
+				<div class="controls">
+					<div id="leaveFromPicker" class="input-append date">
+						<input type="text" id="leavefrom" class="input-medium" value="{$leavefrom}" name="leavefrom" placeholder="{message name="{$pageslug}-create-leavefrom-placeholder"}" data-format="hh:mm"  {if $allowEdit == "false"}disabled="true" {/if}/>
+						<span class="add-on">
+							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+						</span>
+					</div>
+				</div>
+			</div>
+		{/if}
+
 		{if $userisdriver == 1}
 			<div class="control-group">
 				<div class="controls">
@@ -130,4 +144,15 @@
 	</div>
 </form>
 
+{/block}
+{block name="scriptfooter"}
+    <script type="text/javascript">
+  $(function() {
+    $('#leaveFromPicker').datetimepicker({
+      language: 'en-GB',
+	  pickDate: false,
+	  pickSeconds: false
+    });
+  });
+    </script>
 {/block}

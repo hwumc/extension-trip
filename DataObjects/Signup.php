@@ -12,6 +12,7 @@ class Signup extends DataObject {
     protected $actionplan;
     protected $meal;
     protected $driver = 0;
+    protected $leavefrom;
 
     // this is *NOT* a stored variable.
     public $driverpos;
@@ -149,19 +150,30 @@ class Signup extends DataObject {
         $this->meal = $meal;
     }
 
+    public function setLeaveFrom( $leaveFrom )
+    {
+        $this->leavefrom = $leaveFrom;   
+    }
+    
+    public function getLeaveFrom()
+    {
+        return $this->leavefrom;   
+    }
+    
     public function save()
     {
         global $gDatabase;
 
         if($this->isNew)
         { // insert
-            $statement = $gDatabase->prepare("INSERT INTO `signup` (user, trip, borrowgear, actionplan, meal, driver) VALUES (:user, :trip, :gear, :plan, :meal, :driver);");
+            $statement = $gDatabase->prepare("INSERT INTO `signup` (user, trip, borrowgear, actionplan, meal, driver, leavefrom) VALUES (:user, :trip, :gear, :plan, :meal, :driver, :leavefrom);");
             $statement->bindParam(":user", $this->user);
             $statement->bindParam(":trip", $this->trip);
             $statement->bindParam(":gear", $this->borrowgear);
             $statement->bindParam(":plan", $this->actionplan);
             $statement->bindParam(":meal", $this->meal);
             $statement->bindParam(":driver", $this->driver);
+            $statement->bindParam(":leavefrom", $this->leavefrom);
 
             if($statement->execute())
             {
@@ -175,12 +187,13 @@ class Signup extends DataObject {
         }
         else
         { // update
-            $statement = $gDatabase->prepare("UPDATE `" . strtolower( get_called_class() ) . "` SET borrowgear = :gear, actionplan = :plan, meal = :meal, driver = :driver WHERE id = :id;");
+            $statement = $gDatabase->prepare("UPDATE `" . strtolower( get_called_class() ) . "` SET borrowgear = :gear, actionplan = :plan, meal = :meal, driver = :driver, leavefrom = :leavefrom WHERE id = :id;");
             $statement->bindParam(":id", $this->id);
             $statement->bindParam(":gear", $this->borrowgear);
             $statement->bindParam(":plan", $this->actionplan);
             $statement->bindParam(":meal", $this->meal);
             $statement->bindParam(":driver", $this->driver);
+            $statement->bindParam(":leavefrom", $this->leavefrom);
 
             if(!$statement->execute())
             {

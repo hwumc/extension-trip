@@ -128,6 +128,8 @@ class PageManageTrips extends PageBase
             $g->setDriverPlaces( WebRequest::post( "driverplaces" ) );
             $g->setSignupClose( WebRequest::post( "signupclose" ) );
             $g->setSignupOpen( WebRequest::post( "signupopen" ) );
+            
+            $g->setShowLeaveFrom( WebRequest::post( "showleavefrom" ) == 'on' ? 1 : 0 );
 
             $meal = WebRequest::post( "hasmeal" );
 
@@ -152,6 +154,7 @@ class PageManageTrips extends PageBase
             $this->mSmarty->assign( "signupclose", $g->getSignupClose() );
             $this->mSmarty->assign( "signupopen", $g->getSignupOpen() );
             $this->mSmarty->assign( "hasmeal", $g->getHasMeal() ? 'checked' : '');
+            $this->mSmarty->assign( "showleavefrom", $g->getShowLeaveFrom() ? 'checked' : '');
 
             global $cWebPath;
             $this->mStyles[] = $cWebPath . '/style/bootstrap-datetimepicker.min.css';
@@ -248,6 +251,8 @@ class PageManageTrips extends PageBase
             $g->setDriverPlaces( WebRequest::post( "driverplaces" ) );
             $g->setSignupClose( WebRequest::post( "signupclose" ) );
             $g->setSignupOpen( WebRequest::post( "signupopen" ) );
+            
+            $g->setShowLeaveFrom( WebRequest::post( "showleavefrom" ) == 'on' ? 1 : 0 );
 
             $meal = WebRequest::post( "hasmeal" );
 
@@ -274,6 +279,7 @@ class PageManageTrips extends PageBase
             $this->mSmarty->assign( "signupclose", "" );
             $this->mSmarty->assign( "signupopen", "" );
             $this->mSmarty->assign( "hasmeal", "" );
+            $this->mSmarty->assign( "showleavefrom", "" );
 
             global $cWebPath;
             $this->mStyles[] = $cWebPath . '/style/bootstrap-datetimepicker.min.css';

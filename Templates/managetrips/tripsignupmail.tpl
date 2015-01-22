@@ -38,6 +38,10 @@ html { font-size:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100% } 
 			<th>Plan</th>
 			<th>Experience</th>
 			
+			{if $trip->getShowLeaveFrom() == 1}
+				<th>Leave from</th>
+			{/if}
+			
 			{if $trip->getHasMeal() == 1}
 				<th>Meal?</th>
 			{/if}
@@ -51,6 +55,10 @@ html { font-size:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100% } 
 				<td>{if ! $s->getUserObject()->isAnonymous()}<pre>{$s->getBorrowGear()|escape}</pre>{/if}</td>
 				<td>{if ! $s->getUserObject()->isAnonymous()}<pre>{$s->getActionPlan()|escape}</pre>{/if}</td>
 				<td>{if ! $s->getUserObject()->isAnonymous()}<pre>{$s->getUserObject()->getExperience()|escape}</pre>{/if}</td>
+							
+				{if $trip->getShowLeaveFrom() == 1}
+					<td>{if ! $s->getUserObject()->isAnonymous()}{$s->getLeaveFrom()|escape}{/if}</td>
+				{/if}
 				
 				{if $trip->getHasMeal() == 1}
 					<td>{if ! $s->getUserObject()->isAnonymous()}{$s->getMealText()}{/if}</td>

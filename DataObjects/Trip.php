@@ -19,6 +19,7 @@ class Trip extends DataObject
     protected $signupopen;
     protected $hasmeal;
     protected $driverplaces;
+    protected $showleavefrom;
 
     public static function getArray()
     {
@@ -241,13 +242,23 @@ class Trip extends DataObject
         $this->hasmeal = $meal;
     }
 
+    function getShowLeaveFrom()
+    {
+        return $this->showleavefrom;
+    }
+
+    function setShowLeaveFrom( $showLeaveFrom )
+    {
+        $this->showleavefrom = $showLeaveFrom;
+    }
+
     public function save()
     {
         global $gDatabase;
 
         if($this->isNew)
         { // insert
-            $statement = $gDatabase->prepare("INSERT INTO `trip` (startdate, enddate, semester, week, year, location, description, price, spaces, status, signupclose, hasmeal, driverplaces, signupopen) VALUES (:startdate, :enddate, :semester, :week, :year, :location, :description, :price, :spaces, :status, :signupclose, :hasmeal, :driverplaces, :signupopen);");
+            $statement = $gDatabase->prepare("INSERT INTO `trip` (startdate, enddate, semester, week, year, location, description, price, spaces, status, signupclose, hasmeal, driverplaces, signupopen, showleavefrom) VALUES (:startdate, :enddate, :semester, :week, :year, :location, :description, :price, :spaces, :status, :signupclose, :hasmeal, :driverplaces, :signupopen, :showleavefrom);");
             $statement->bindParam(":startdate", $this->startdate);
             $statement->bindParam(":enddate", $this->enddate);
             $statement->bindParam(":semester", $this->semester);
@@ -262,6 +273,7 @@ class Trip extends DataObject
             $statement->bindParam(":hasmeal", $this->hasmeal);
             $statement->bindParam(":driverplaces", $this->driverplaces);
             $statement->bindParam(":signupopen", $this->signupopen);
+            $statement->bindParam(":showleavefrom", $this->showleavefrom);
 
             if($statement->execute())
             {
@@ -275,7 +287,7 @@ class Trip extends DataObject
         }
         else
         { // update
-            $statement = $gDatabase->prepare("UPDATE `" . strtolower( get_called_class() ) . "` SET startdate = :startdate, enddate = :enddate, semester = :semester, year = :year, week = :week, location = :location, description = :description, price = :price, spaces = :spaces, status = :status, signupclose = :signupclose, hasmeal = :hasmeal, driverplaces = :driverplaces, signupopen = :signupopen WHERE id = :id LIMIT 1;");
+            $statement = $gDatabase->prepare("UPDATE `" . strtolower( get_called_class() ) . "` SET startdate = :startdate, enddate = :enddate, semester = :semester, year = :year, week = :week, location = :location, description = :description, price = :price, spaces = :spaces, status = :status, signupclose = :signupclose, hasmeal = :hasmeal, driverplaces = :driverplaces, signupopen = :signupopen, showleavefrom = :showleavefrom WHERE id = :id LIMIT 1;");
             $statement->bindParam(":id", $this->id);
             $statement->bindParam(":startdate", $this->startdate);
             $statement->bindParam(":enddate", $this->enddate);
@@ -291,6 +303,7 @@ class Trip extends DataObject
             $statement->bindParam(":hasmeal", $this->hasmeal);
             $statement->bindParam(":driverplaces", $this->driverplaces);
             $statement->bindParam(":signupopen", $this->signupopen);
+            $statement->bindParam(":showleavefrom", $this->showleavefrom);
 
             if(!$statement->execute())
             {
