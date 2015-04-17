@@ -28,9 +28,7 @@
 	<table class="table table-striped table-bordered table-hover">
 		<tr>
 			<th>Place</th>
-			<th></th>
 			<th>Person</th>
-			<th>Signup Time</th>
 			<th>Gear required</th>
 			<th>Action Plan</th>
 			
@@ -44,12 +42,17 @@
 		</tr>
 		{foreach from="$signups" item="s" key="tripid"}
 			<tr {if $tripid >= $trip->getSpaces()}class="warning"{/if}{if $tripid < $trip->getDriverPlaces()}class="info"{/if}>
-				<td>{$tripid + 1}{if $tripid >= $trip->getSpaces()} {message name="Trips-signupsheet-waiting"}{/if}{if $tripid < $trip->getDriverPlaces()} {message name="Trips-signupsheet-driverplace"}{/if}</td>
-				<td>{if ! $s->getUserObject()->isAnonymous()}<a href="{$cScriptPath}/ManageTrips/deletesignup/{$s->getId()}" class="btn btn-danger"><i class="icon-trash icon-white"></i>&nbsp;{message name="{$pageslug}-signupsheet-deletebutton"}</a>{/if}</td>
-				<td>{include file="userdisplay.tpl" user=$s->getUserObject()}<br />{if $s->getUserObject()->isDriver()}<span class="label label-info">{message name="Trips-signupsheet-driver"}</span>{/if}</td>
-				<td>{if ! $s->getUserObject()->isAnonymous()}{$s->getTime()}{/if}</td>
-				<td>{if ! $s->getUserObject()->isAnonymous()}<pre>{$s->getBorrowGear()|escape}</pre>{/if}</td>
-				<td>{if ! $s->getUserObject()->isAnonymous()}<pre>{$s->getActionPlan()|escape}</pre>{/if}</td>
+				<td>
+					{if ! $s->getUserObject()->isAnonymous()}<a href="#" rel="tooltip" data-toggle="tooltip" title="{$s->getTime()}">{/if}
+						{$tripid + 1}
+					{if ! $s->getUserObject()->isAnonymous()}</a>{/if}
+					{if $tripid >= $trip->getSpaces()}<a href="#" rel="tooltip" data-toggle="tooltip" title="{message name="Trips-signupsheet-waiting"}"><span class="label label-warning"><i class="icon-time icon-white"></i></span></a>{/if}
+					{if $tripid < $trip->getDriverPlaces()}<a href="#" rel="tooltip" data-toggle="tooltip" title="{message name="Trips-signupsheet-driverplace"}"><span class="label label-info"><i class="icon-road icon-white"></i></span></a>{/if}
+					{if ! $s->getUserObject()->isAnonymous()}<a href="{$cScriptPath}/ManageTrips/deletesignup/{$s->getId()}" class="btn btn-danger btn-mini"><i class="icon-trash icon-white"></i></a>{/if}
+				</td>
+				<td>{include file="userdisplay.tpl" user=$s->getUserObject()}{if $s->getUserObject()->isDriver()} <span class="label label-info"><i class="icon-road icon-white"></i></span>{/if}</td>
+				<td>{if ! $s->getUserObject()->isAnonymous()}{$s->getBorrowGear()|escape}{/if}</td>
+				<td>{if ! $s->getUserObject()->isAnonymous()}{$s->getActionPlan()|escape}{/if}</td>
 							
 				{if $trip->getShowLeaveFrom() == 1}
 					<td>{if ! $s->getUserObject()->isAnonymous()}{$s->getLeaveFrom()|escape}{/if}</td>
@@ -61,5 +64,12 @@
 			</tr>
 		{/foreach}
 	</table>
-
+{/block}
+{block name="scriptfooter"}
+{* Initialise tooltips *}
+<script type="text/javascript">
+    $(function () {
+    $("[rel='tooltip']").tooltip();
+    });
+  </script>
 {/block}
