@@ -16,6 +16,8 @@ class Signup extends DataObject {
 
     // this is *NOT* a stored variable.
     public $driverpos;
+    
+    private $paymentCache;
 
     public static function getAnonymous($tripid)
     {
@@ -160,6 +162,16 @@ class Signup extends DataObject {
         return $this->leavefrom;   
     }
     
+    public function getPayment()
+    {
+        if($this->paymentCache == null)
+        {
+            $this->paymentCache = Payment::getBySignup($this);
+        }
+        
+        return $this->paymentCache;
+    }
+    
     public function save()
     {
         global $gDatabase;
@@ -202,7 +214,8 @@ class Signup extends DataObject {
         }
     }
 
-    public function canDelete() {
-        return true;
+    public function canDelete() 
+    {
+        return PaymentStatus::isDeletable($this->getPayment()->getStatus());
     }
 }

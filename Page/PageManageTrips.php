@@ -8,7 +8,7 @@ class PageManageTrips extends PageBase
     {
         $this->mPageUseRight = "tripmanager-view";
         $this->mMenuGroup = "Trips";
-        $this->mPageRegisteredRights = array( "tripmanager-edit", "tripmanager-create", "tripmanager-delete", "tripmanager-signup" );
+        $this->mPageRegisteredRights = array( "tripmanager-edit", "tripmanager-create", "tripmanager-delete", "tripmanager-signup", "tripmanager-payments" );
 
     }
 
@@ -53,6 +53,14 @@ class PageManageTrips extends PageBase
                     $this->archivesMode( $data );
                     return;
                     break;
+                case "payment":
+                    $this->paymentMode( $data );
+                    return;
+                    break;
+                case "paymentWorkflow":
+                    $this->paymentWorkflowMode( $data );
+                    return;
+                    break;
             }
 
         }
@@ -64,12 +72,14 @@ class PageManageTrips extends PageBase
         } catch(AccessDeniedException $ex) {
             $this->mSmarty->assign("allowCreate", 'false');
         }
+
         try {
             self::checkAccess('tripmanager-delete');
             $this->mSmarty->assign("allowDelete", 'true');
         } catch(AccessDeniedException $ex) {
             $this->mSmarty->assign("allowDelete", 'false');
         }
+
         try {
             self::checkAccess('tripmanager-edit');
             $this->mSmarty->assign("allowEdit", 'true');
@@ -77,6 +87,7 @@ class PageManageTrips extends PageBase
         catch(AccessDeniedException $ex) {
             $this->mSmarty->assign("allowEdit", 'false');
         }
+
         try {
             self::checkAccess('tripmanager-signup');
             $this->mSmarty->assign("allowSignup", 'true');
@@ -84,7 +95,7 @@ class PageManageTrips extends PageBase
         catch(AccessDeniedException $ex) {
             $this->mSmarty->assign("allowSignup", 'false');
         }
-
+        
         $this->mSmarty->assign("archiveMode", 'false');
 
         $this->mBasePage = "managetrips/list.tpl";
@@ -290,6 +301,15 @@ class PageManageTrips extends PageBase
     private function signupMode( $data ) {
         self::checkAccess('tripmanager-signup');
 
+        // Enable the payments button as appropriate
+        try {
+            self::checkAccess('tripmanager-payments');
+            $this->mSmarty->assign("allowPaymentInterface", 'true');
+        }
+        catch(AccessDeniedException $ex) {
+            $this->mSmarty->assign("allowPaymentInterface", 'false');
+        }
+
         $g = Trip::getById( $data[ 1 ] );
 
         $helper = new SignupListHelper($g);
@@ -298,6 +318,46 @@ class PageManageTrips extends PageBase
         $this->mBasePage = "managetrips/tripsignup.tpl";
         $this->mSmarty->assign( "trip", $g );
         $this->mSmarty->assign( "signups", $signups );
+    }
+
+    private function paymentMode( $data ) {
+        self::checkAccess('tripmanager-payments');
+
+        $g = Trip::getById( $data[ 1 ] );
+
+        $helper = new SignupListHelper($g);
+        $signups = $helper->getPrioritisedSignups();
+
+        $this->mBasePage = "managetrips/trippayments.tpl";
+        $this->mSmarty->assign( "trip", $g );
+        $this->mSmarty->assign( "signups", $signups );
+    }
+
+    private function paymentWorkflowMode( $data ) {
+        self::checkAccess('tripmanager-payments');
+
+        $status = false;
+
+        if(WebRequest::wasPosted())
+        {
+            $action = WebRequest::post( "action" );
+            $paymentId = WebRequest::post( "payment" );
+            $tripId = WebRequest::post( "trip" );
+
+            $payment = Payment::getById($paymentId);
+            if($payment !== false)
+            {
+                $status = $payment->getMethodObject()->transition($payment, $action);
+            }
+            
+            if(!$status)
+            {
+                Session::appendError("payment-transition-failed");
+            }
+
+            $this->mHeaders[] =  "Location: " . $cScriptPath . "/ManageTrips/payment/" . $tripId;
+            $this->mIsRedirecting = true;
+        }
     }
 
     private function signupFullMode( $data ) {

@@ -74,8 +74,11 @@ class PageTrips extends PageBase
         if( WebRequest::wasPosted() ) {
             $s = $g->isUserSignedUp( $user->getId() );
 
+            $creatingNew = false;
+
             if( $s === false )
             {
+                $creatingNew = true;
                 $s = new Signup();
                 $s->setTrip($g->getId());
                 $s->setUser($user->getId());
@@ -96,6 +99,13 @@ class PageTrips extends PageBase
             $s->setMeal( $meal == 'on' ? 1 : 0 );
             
             $s->save();
+
+            if($creatingNew)
+            {
+                $paymentMethod = new ManualPaymentMethod();
+                
+                $payment = $paymentMethod->createPayment($s, $g->getPrice());
+            }
             
             $helper = new SignupListHelper($g);
             $status = $helper->getSignupStatus($user);

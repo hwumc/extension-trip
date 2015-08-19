@@ -28,6 +28,7 @@
     <OutputPath>bin\beta\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DataObjects\Payment.php" />
     <Compile Include="DataObjects\Signup.php">
       <SubType>Code</SubType>
     </Compile>
@@ -40,6 +41,9 @@
     <Compile Include="HwumcTripHooks.php">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IPaymentMethod.php" />
+    <Compile Include="ManualPaymentMethod.php" />
+    <Compile Include="NullPaymentMethod.php" />
     <Compile Include="Page\PageMyTrips.php" />
     <Compile Include="Page\PageTrips.php">
       <SubType>Code</SubType>
@@ -47,6 +51,8 @@
     <Compile Include="Page\PageManageTrips.php">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PaymentMethodBase.php" />
+    <Compile Include="PaymentStatus.php" />
     <Compile Include="SignupListHelper.php">
       <SubType>Code</SubType>
     </Compile>
@@ -67,6 +73,7 @@
     <Content Include="Templates\managetrips\tripemail.tpl">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Templates\managetrips\trippayments.tpl" />
     <Content Include="Templates\managetrips\tripsignupmail.tpl">
       <SubType>Content</SubType>
     </Content>
