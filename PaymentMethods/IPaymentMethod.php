@@ -6,7 +6,7 @@ if(!defined("HMS"))
 interface IPaymentMethod
 {
     /**
-     * Summary of getName
+     * Used by the management UI
      * @return string
      */
     public function getName();
@@ -35,4 +35,20 @@ interface IPaymentMethod
     public function markAsRefunded(Payment $payment);
 
     public function transition(Payment $payment, $nextWorkflowStage);
+
+    public function calculateHandlingCharge($amount);
+
+    /**
+     * Requests authorisaton for the payment from the provider
+     * @param Payment $payment 
+     * @return false|string Path to redirect the user to if required by the external mechanism, false if no redirect needed.
+     */
+    public function getAuthorisation(Payment $payment);
+
+    /**
+     * The payment provider callback
+     * @param bool $approved 
+     * @return string the URL to redirect to
+     */
+    public function callback($approved);
 }

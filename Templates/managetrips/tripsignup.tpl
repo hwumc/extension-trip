@@ -51,7 +51,7 @@
 					{if ! $s->getUserObject()->isAnonymous()}</a>{/if}
 					{if $tripid >= $trip->getSpaces()}<a href="#" rel="tooltip" data-toggle="tooltip" title="{message name="Trips-signupsheet-waiting"}"><span class="label label-warning"><i class="icon-time icon-white"></i></span></a>{/if}
 					{if $tripid < $trip->getDriverPlaces()}<a href="#" rel="tooltip" data-toggle="tooltip" title="{message name="Trips-signupsheet-driverplace"}"><span class="label label-info"><i class="icon-road icon-white"></i></span></a>{/if}
-					{if ! $s->getUserObject()->isAnonymous()}<a href="{$cScriptPath}/ManageTrips/deletesignup/{$s->getId()}" class="btn btn-danger btn-mini"><i class="icon-trash icon-white"></i></a>{/if}
+					{if ! $s->getUserObject()->isAnonymous()}{if $s->canDelete()}<a href="{$cScriptPath}/ManageTrips/deletesignup/{$s->getId()}" class="btn btn-danger btn-mini"><i class="icon-trash icon-white"></i></a>{/if}{/if}
 				</td>
 				<td>{include file="userdisplay.tpl" user=$s->getUserObject()}{if $s->getUserObject()->isDriver()} <span class="label label-info"><i class="icon-road icon-white"></i></span>{/if}</td>
 				<td>{if ! $s->getUserObject()->isAnonymous()}{$s->getBorrowGear()|escape}{/if}</td>

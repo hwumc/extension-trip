@@ -66,12 +66,27 @@ class PageTrips extends PageBase
         $g = Trip::getById( $data[ 1 ] );
         $user = User::getLoggedIn();
 
+        $allowedPaymentMethods = array();
+        foreach(TripPaymentMethod::getByTrip($g) as $tpm)
+        {
+            if($tpm->getVisible() == 1) 
+            {
+                $methodName = $tpm->getMethod();
+                $allowedPaymentMethods[$methodName] = array(
+                    'check' => false, 
+                    'method' => new $methodName()
+                );
+            }
+        }
+
         if($g->getStatus() != "open" )
         {
             throw new AccessDeniedException();
         }
 
         if( WebRequest::wasPosted() ) {
+            global $gDatabase;
+            
             $s = $g->isUserSignedUp( $user->getId() );
 
             $creatingNew = false;
@@ -100,11 +115,47 @@ class PageTrips extends PageBase
             
             $s->save();
 
+            $requestedPaymentMethod = WebRequest::post( "paymentMethod" );
+            $paymentRequestedRedirect = false;
+
             if($creatingNew)
             {
-                $paymentMethod = new ManualPaymentMethod();
+                if(array_key_exists($requestedPaymentMethod, $allowedPaymentMethods))
+                {
+                    $paymentMethod = new $requestedPaymentMethod();
+                }
+                else
+                {
+                    $paymentMethod = new ManualPaymentMethod();
+                }
                 
                 $payment = $paymentMethod->createPayment($s, $g->getPrice());
+                $paymentRequestedRedirect = $paymentMethod->getAuthorisation($payment);
+            }
+            else
+            {
+                $payment = Payment::getBySignup($s);
+                if(get_class($payment->getMethodObject()) != $requestedPaymentMethod
+                    || $payment->getStatus() == PaymentStatus::REFUNDED
+                    || $payment->getStatus() == PaymentStatus::CANCELLED
+                    || $payment->getStatus() == PaymentStatus::NOT_PAID
+                    )
+                {
+                    // OK, the user wants to change their method of payment (or it's been refunded/cancelled).
+                    // This *should* be possible if they've not paid.
+                    if($payment->canDelete())
+                    {
+                        $paymentMethod = new $requestedPaymentMethod();
+                        $payment->delete();
+
+                        $payment = $paymentMethod->createPayment($s, $g->getPrice());
+                        $paymentRequestedRedirect = $paymentMethod->getAuthorisation($payment);
+                    }
+                    else
+                    {
+                        Session::appendError("payment-method-change-not-allowed");
+                    }
+                }
             }
             
             $helper = new SignupListHelper($g);
@@ -126,7 +177,15 @@ class PageTrips extends PageBase
                 Session::appendSuccess("Signup-success-normal");   
             }
 
-            $this->mHeaders[] = ( "Location: " . $cScriptPath . "/Trips/list/" . $data[ 1 ] );
+            if($paymentRequestedRedirect !== false)
+            {
+                $this->mHeaders[] = ( "Location: " . $paymentRequestedRedirect );
+            }
+            else 
+            {
+                $this->mHeaders[] = ( "Location: " . $cScriptPath . "/Trips/list/" . $data[ 1 ] );
+            }
+            
             $this->mIsRedirecting = true;
         } else {
             $signup = $g->isUserSignedUp( $user->getId() );
@@ -139,6 +198,12 @@ class PageTrips extends PageBase
                 $this->mSmarty->assign( "meal", $signup->getMeal() ? "checked" : "");
                 $this->mSmarty->assign( "driver", $signup->getDriver() ? "checked" : "");
                 $this->mSmarty->assign( "leavefrom", $signup->getLeaveFrom() );
+
+                $payment = Payment::getBySignup($signup);
+                $method = get_class($payment->getMethodObject());
+                if($method != "NullPaymentMethod") $allowedPaymentMethods[$method]['check'] = true;
+
+                $this->mSmarty->assign( "showPaymentMethods", ( count($allowedPaymentMethods) > 1 && $payment->canDelete() ) );
             }
             else
             {
@@ -149,6 +214,7 @@ class PageTrips extends PageBase
                 $this->mSmarty->assign( "meal", "checked" );
                 $this->mSmarty->assign( "driver", $user->getIsDriver() ? "checked" : "");
                 $this->mSmarty->assign( "leavefrom", "");
+                $this->mSmarty->assign( "showPaymentMethods", count($allowedPaymentMethods) > 1 );
             }
 
             $this->mBasePage = "trips/tripsignup.tpl";
@@ -167,6 +233,7 @@ class PageTrips extends PageBase
             $this->mSmarty->assign( "userisdriver", $user->getIsDriver() );
             $this->mSmarty->assign( "userisdriverexpired", $user->getDriverExpiry() !== null && DateTime::createFromFormat($cDisplayDateFormat, $user->getDriverExpiry()) < DateTime::createFromFormat($cDisplayDateFormat, $g->getEndDate() ) );
 
+            $this->mSmarty->assign( "allowedPaymentMethods", $allowedPaymentMethods );
        }
     }
 

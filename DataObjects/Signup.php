@@ -80,10 +80,18 @@ class Signup extends DataObject {
         $this->trip = $trip;
     }
 
+    /**
+     * Summary of getTrip
+     * @return int
+     */
     function getTrip() {
         return $this->trip;
     }
 
+    /**
+     * Summary of getTripObject
+     * @return Trip
+     */
     function getTripObject()
     {
         return Trip::getById( $this->trip );

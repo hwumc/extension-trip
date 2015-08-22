@@ -120,9 +120,20 @@ class PageManageTrips extends PageBase
         } catch(AccessDeniedException $ex) {
             $allowEdit = "false";
         }
+
         $g = Trip::getById( $data[ 1 ] );
+        
+        if($g == false)
+        {
+            global $cScriptPath;
+            $this->mHeaders[] = ( "Location: " . $cScriptPath . "/ManageTrips" );
+            $this->mIsRedirecting = true;
+            return;
+        }
 
         $this->mSmarty->assign("allowEdit", $allowEdit);
+
+        global $cPaymentMethods;
 
         if( WebRequest::wasPosted() ) {
             if( ! $allowEdit ) throw new AccessDeniedException();
@@ -147,10 +158,70 @@ class PageManageTrips extends PageBase
             $g->setHasMeal( $meal == 'on' ? 1 : 0 );
             $g->save();
 
+            // get the trip payment methods
+            $r = array();
+            foreach( $_POST as $k => $v ) 
+            {
+                if( $v !== "on" ) continue;
+                if( preg_match( "/^pm\-.*$/", $k ) === 1 ) $r[ ] = preg_replace( "/^pm\-(.*)$/", "\${1}", $k );
+            }
+
+            // create a lookup dictionary for existing rows
+            $currentTripPaymentMethods = array();
+            foreach(TripPaymentMethod::getByTrip($g) as $tpm)
+            {
+                $currentTripPaymentMethods[$tpm->getMethod()] = $tpm;
+            }
+
+            // add new, and make existing visible
+            foreach($r as $k)
+            {
+                // sanity check
+                if(!in_array($k, $cPaymentMethods)) continue;
+
+                if(array_key_exists($k, $currentTripPaymentMethods))
+                {
+                    $tpm = $currentTripPaymentMethods[$k];
+
+                    // remove from current collection, as we've dealt with it
+                    unset($currentTripPaymentMethods[$k]);
+                }
+                else
+                {
+                    $tpm = new TripPaymentMethod();
+                }
+                
+                $tpm->setVisible(1);
+                $tpm->setTripId($g->getId());
+                $tpm->setMethod($k);
+                $tpm->save();
+            }
+
+            // hide the remaining, as these aren't set
+            foreach($currentTripPaymentMethods as $tpm)
+            {
+                $tpm->setVisible(0);
+                $tpm->save();
+            }
+
             global $cScriptPath;
             $this->mHeaders[] = ( "Location: " . $cScriptPath . "/ManageTrips" );
             $this->mIsRedirecting = true;
         } else {
+            $paymentMethods = array();
+            foreach($cPaymentMethods as $pm)
+            {
+                $paymentMethods[$pm] = false;
+            }
+
+            $activePaymentMethods = TripPaymentMethod::getByTrip($g);
+            foreach($activePaymentMethods as $pm)
+            {
+                $visibility = $pm->getVisible() == 1;
+                $method = $pm->getMethod();
+                $paymentMethods[$method] = $visibility;
+            }
+
             $this->mBasePage = "managetrips/tripcreate.tpl";
             $this->mSmarty->assign( "startdate", $g->getStartDate() );
             $this->mSmarty->assign( "enddate", $g->getEndDate() );
@@ -166,6 +237,7 @@ class PageManageTrips extends PageBase
             $this->mSmarty->assign( "signupopen", $g->getSignupOpen() );
             $this->mSmarty->assign( "hasmeal", $g->getHasMeal() ? 'checked' : '');
             $this->mSmarty->assign( "showleavefrom", $g->getShowLeaveFrom() ? 'checked' : '');
+            $this->mSmarty->assign( "allowedPaymentMethods", $paymentMethods);
 
             global $cWebPath;
             $this->mStyles[] = $cWebPath . '/style/bootstrap-datetimepicker.min.css';
@@ -246,6 +318,8 @@ class PageManageTrips extends PageBase
     private function createMode( $data ) {
         self::checkAccess( "tripmanager-create" );
         $this->mSmarty->assign("allowEdit", 'true');
+        
+        global $cPaymentMethods;
 
         if( WebRequest::wasPosted() ) {
             $g = new Trip();
@@ -270,11 +344,35 @@ class PageManageTrips extends PageBase
             $g->setHasMeal( $meal == 'on' ? 1 : 0 );
             $g->save();
 
+            $r = array();
+            foreach( $_POST as $k => $v ) 
+            {
+                if( $v !== "on" ) continue;
+                if( preg_match( "/^pm\-.*$/", $k ) === 1 ) $r[ ] = preg_replace( "/^pm\-(.*)$/", "\${1}", $k );
+            }
+
+            foreach($r as $k)
+            {
+                // sanity check
+                if(!in_array($k, $cPaymentMethods)) continue;
+
+                $tpm = new TripPaymentMethod();
+                $tpm->setVisible(1);
+                $tpm->setTripId($g->getId());
+                $tpm->setMethod($k);
+                $tpm->save();
+            }
+
             global $cScriptPath;
 
             $this->mHeaders[] =  "Location: " . $cScriptPath . "/ManageTrips";
             $this->mIsRedirecting = true;
         } else {
+            $paymentMethods = array();
+            foreach($cPaymentMethods as $k => $pm)
+            {
+                $paymentMethods[$pm] = false;
+            }
 
             $this->mBasePage = "managetrips/tripcreate.tpl";
             $this->mSmarty->assign( "startdate", "" );
@@ -291,6 +389,7 @@ class PageManageTrips extends PageBase
             $this->mSmarty->assign( "signupopen", "" );
             $this->mSmarty->assign( "hasmeal", "" );
             $this->mSmarty->assign( "showleavefrom", "" );
+            $this->mSmarty->assign( "allowedPaymentMethods", $paymentMethods);
 
             global $cWebPath;
             $this->mStyles[] = $cWebPath . '/style/bootstrap-datetimepicker.min.css';
@@ -419,7 +518,7 @@ class PageManageTrips extends PageBase
             }
 
             global $cScriptPath;
-            $this->mHeaders[] =  "Location: " . $cScriptPath . "/ManageTrips";
+            $this->mHeaders[] =  "Location: " . $cScriptPath . "/ManageTrips/signup/" . $g->getTrip();
             $this->mIsRedirecting = true;
         } else {
             $this->mBasePage = "managetrips/tripdeletesignup.tpl";

@@ -35,15 +35,18 @@
     <Compile Include="DataObjects\Trip.php">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DataObjects\TripPaymentMethod.php" />
+    <Compile Include="Page\PagePaymentCallback.php" />
+    <Compile Include="PaymentMethods\FakePayPalPaymentMethod.php" />
     <Compile Include="HwumcTripExtension.php">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HwumcTripHooks.php">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="IPaymentMethod.php" />
-    <Compile Include="ManualPaymentMethod.php" />
-    <Compile Include="NullPaymentMethod.php" />
+    <Compile Include="PaymentMethods\IPaymentMethod.php" />
+    <Compile Include="PaymentMethods\ManualPaymentMethod.php" />
+    <Compile Include="PaymentMethods\NullPaymentMethod.php" />
     <Compile Include="Page\PageMyTrips.php" />
     <Compile Include="Page\PageTrips.php">
       <SubType>Code</SubType>
@@ -51,7 +54,7 @@
     <Compile Include="Page\PageManageTrips.php">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="PaymentMethodBase.php" />
+    <Compile Include="PaymentMethods\PaymentMethodBase.php" />
     <Compile Include="PaymentStatus.php" />
     <Compile Include="SignupListHelper.php">
       <SubType>Code</SubType>
@@ -63,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataObjects\" />
+    <Folder Include="PaymentMethods\" />
     <Folder Include="Page\" />
     <Folder Include="Templates\" />
     <Folder Include="Templates\managetrips\" />

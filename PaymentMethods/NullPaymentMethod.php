@@ -33,7 +33,7 @@ class NullPaymentMethod extends PaymentMethodBase implements IPaymentMethod
     {
         $payment = new Payment();
         $payment->setSignup($signup->getId());
-        $payment->setMethod(get_class());
+        $payment->setMethod(null);
         $payment->setStatus(PaymentStatus::UNKNOWN);
         $payment->setAmount(0);
 

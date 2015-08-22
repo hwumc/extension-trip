@@ -19,20 +19,22 @@ class HwumcTripExtension extends Extension
         $files = array(
             "HwumcTripHooks" => "HwumcTripHooks.php",
             
-            "Trip" => "DataObjects/Trip.php",
-            "Signup" => "DataObjects/Signup.php",
-            "Payment" => "DataObjects/Payment.php",
+            "Trip"                      => "DataObjects/Trip.php",
+            "Signup"                    => "DataObjects/Signup.php",
+            "Payment"                   => "DataObjects/Payment.php",
+            "TripPaymentMethod"         => "DataObjects/TripPaymentMethod.php",
             
-            "TripHardStatus" => "TripHardStatus.php",
-            "PaymentStatus" => "PaymentStatus.php",
+            "TripHardStatus"            => "TripHardStatus.php",
+            "PaymentStatus"             => "PaymentStatus.php",
             
-            "SignupListHelper" => "SignupListHelper.php",
-            "SignupStatus" => "SignupStatus.php",
+            "SignupListHelper"          => "SignupListHelper.php",
+            "SignupStatus"              => "SignupStatus.php",
             
-            "IPaymentMethod" => "IPaymentMethod.php",
-            "PaymentMethodBase" => "PaymentMethodBase.php",
-            "NullPaymentMethod" => "NullPaymentMethod.php",
-            "ManualPaymentMethod" => "ManualPaymentMethod.php",
+            "IPaymentMethod"            => "PaymentMethods/IPaymentMethod.php",
+            "PaymentMethodBase"         => "PaymentMethods/PaymentMethodBase.php",
+            "NullPaymentMethod"         => "PaymentMethods/NullPaymentMethod.php",
+            "ManualPaymentMethod"       => "PaymentMethods/ManualPaymentMethod.php",
+            "FakePayPalPaymentMethod"   => "PaymentMethods/FakePayPalPaymentMethod.php",
         );
 
         return array_key_exists($class, $files) ? $files[$class] : null;

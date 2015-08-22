@@ -21,7 +21,9 @@
 		</tbody>
 	</table>
 	<h3>{message name="{$pageslug}-payments-sheetheader"}</h3>
-	
+	<div class="btn-group" style="margin-bottom:15px;">
+		<a href="{$cScriptPath}/{$pageslug}/signup/{$trip->getId()}" class="btn btn-small">{message name="{$pageslug}-button-signup"}</a>
+	</div>
 	<table class="table table-striped table-bordered table-hover">
 		<tr>
 			<th>Place</th>
@@ -29,6 +31,8 @@
 			<th>Method</th>
 			<th>Status</th>
 			<th>Amount</th>
+			<th>Charges</th>
+			<th>Total</th>
 			<th>Actions</th>
 		</tr>
 		{foreach from="$signups" item="s" key="tripid"}
@@ -43,7 +47,9 @@
 				<td>{include file="userdisplay.tpl" user=$s->getUserObject()}{if $s->getUserObject()->isDriver()} <span class="label label-info"><i class="icon-road icon-white"></i></span>{/if}</td>
 				<td>{$s->getPayment()->getMethodObject()->getName()}</td>
 				<td>{message name="Payments-status-{$s->getPayment()->getStatus()}"}</td>
-				<td>&pound;{$s->getPayment()->getAmount()|escape}</td>
+				<td>&pound;{$s->getPayment()->getAmount()|string_format:"%.2f"}</td>
+				<td>&pound;{$s->getPayment()->getHandlingCharge()|string_format:"%.2f"}</td>
+				<td>&pound;{$s->getPayment()->getTotal()|string_format:"%.2f"}</td>
 				<td>
 					<form method="post" action="{$cWebPath}/{$pageslug}/paymentWorkflow" style="margin-bottom:0px;">
 						<input type="hidden" name="payment" value="{$s->getPayment()->getId()}" />
