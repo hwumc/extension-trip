@@ -454,6 +454,7 @@ class PageManageTrips extends PageBase
                 Session::appendError("payment-transition-failed");
             }
 
+            global $cScriptPath;
             $this->mHeaders[] =  "Location: " . $cScriptPath . "/ManageTrips/payment/" . $tripId;
             $this->mIsRedirecting = true;
         }

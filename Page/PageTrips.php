@@ -73,8 +73,9 @@ class PageTrips extends PageBase
             {
                 $methodName = $tpm->getMethod();
                 $allowedPaymentMethods[$methodName] = array(
-                    'check' => false, 
-                    'method' => new $methodName()
+                    'check'  => false, 
+                    'method' => new $methodName(),
+                    'name'   => $methodName
                 );
             }
         }
@@ -116,6 +117,20 @@ class PageTrips extends PageBase
             $s->save();
 
             $requestedPaymentMethod = WebRequest::post( "paymentMethod" );
+
+            if($requestedPaymentMethod === false)
+            {
+                if(count($allowedPaymentMethods) == 1)
+                {
+                    $m = current($allowedPaymentMethods);
+                    $requestedPaymentMethod = $m['name'];
+                }
+                else
+                {
+                    $requestedPaymentMethod = "NullPaymentMethod";
+                }
+            }
+
             $paymentRequestedRedirect = false;
 
             if($creatingNew)
@@ -201,7 +216,19 @@ class PageTrips extends PageBase
 
                 $payment = Payment::getBySignup($signup);
                 $method = get_class($payment->getMethodObject());
-                if($method != "NullPaymentMethod") $allowedPaymentMethods[$method]['check'] = true;
+                if($method != "NullPaymentMethod")
+                {
+                    if(!array_key_exists($method, $allowedPaymentMethods))
+                    {
+                        $allowedPaymentMethods[$method] = array(
+                            'name' => $method,
+                            'method' => new $method(),
+                            'check' => false,
+                        );
+                    }
+
+                    $allowedPaymentMethods[$method]['check'] = true;
+                }
 
                 $this->mSmarty->assign( "showPaymentMethods", ( count($allowedPaymentMethods) > 1 && $payment->canDelete() ) );
             }

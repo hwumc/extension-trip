@@ -51,7 +51,7 @@
 				<td>&pound;{$s->getPayment()->getHandlingCharge()|string_format:"%.2f"}</td>
 				<td>&pound;{$s->getPayment()->getTotal()|string_format:"%.2f"}</td>
 				<td>
-					<form method="post" action="{$cWebPath}/{$pageslug}/paymentWorkflow" style="margin-bottom:0px;">
+					<form method="post" action="{$cScriptPath}/{$pageslug}/paymentWorkflow" style="margin-bottom:0px;">
 						<input type="hidden" name="payment" value="{$s->getPayment()->getId()}" />
 						<input type="hidden" name="trip" value="{$trip->getId()}" />
 						<div class="btn-group">
