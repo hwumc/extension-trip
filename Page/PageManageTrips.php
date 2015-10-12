@@ -502,12 +502,6 @@ class PageManageTrips extends PageBase
             $this->mBasePage = "managetrips/tripemail.tpl";
             $this->mSmarty->assign( "users", $users );
         }
-
-
-
-
-
-     //   $data = $this->mSmarty->fetch( "managetrips/tripsignupmail.tpl" );
     }
 
     private function deleteSignupMode( $data ) {
