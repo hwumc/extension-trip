@@ -66,6 +66,27 @@
 				{/if}
 			</tr>
 		{/foreach}
+		{foreach from="$deletedSignups" item="s" key="tripid"}
+			<tr class="error">
+				<td>
+					<a href="#" rel="tooltip" data-toggle="tooltip" title="{$s->getTime()}">
+						N/A
+					</a>
+					<a href="#" rel="tooltip" data-toggle="tooltip" title="{message name="Trips-signupsheet-deletedsignup"}"><span class="label"><i class="icon-trash icon-white"></i></span></a>
+				</td>
+				<td>{include file="userdisplay.tpl" user=$s->getUserObject()}{if $s->getUserObject()->isDriver()} <span class="label label-info"><i class="icon-road icon-white"></i></span>{/if}</td>
+				<td>{if ! $s->getUserObject()->isAnonymous()}{$s->getBorrowGear()|escape}{/if}</td>
+				<td>{if ! $s->getUserObject()->isAnonymous()}{$s->getActionPlan()|escape}{/if}</td>
+							
+				{if $trip->getShowLeaveFrom() == 1}
+					<td>{if ! $s->getUserObject()->isAnonymous()}{$s->getLeaveFrom()|escape}{/if}</td>
+				{/if}
+				
+				{if $trip->getHasMeal() == 1}
+					<td>{$s->getMealText()}</td>
+				{/if}
+			</tr>
+		{/foreach}
 	</table>
 {/block}
 {block name="scriptfooter"}

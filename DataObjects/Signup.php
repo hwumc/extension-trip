@@ -13,6 +13,7 @@ class Signup extends DataObject {
     protected $meal;
     protected $driver = 0;
     protected $leavefrom;
+    protected $deleted;
 
     // this is *NOT* a stored variable.
     public $driverpos;
@@ -37,7 +38,24 @@ class Signup extends DataObject {
 
     public static function getByTrip($id) {
         global $gDatabase;
-        $statement = $gDatabase->prepare("SELECT * FROM `" . strtolower( get_called_class() ) . "` WHERE trip = :id;");
+        $statement = $gDatabase->prepare("SELECT * FROM `" . strtolower( get_called_class() ) . "` WHERE trip = :id AND deleted = 0;");
+        $statement->bindParam(":id", $id);
+
+        $statement->execute();
+
+        $resultObject = $statement->fetchAll( PDO::FETCH_CLASS , get_called_class() );
+
+        foreach ($resultObject as $r)
+        {
+            $r->isNew = false;
+        }
+
+        return $resultObject;
+    }
+
+    public static function getDeletedByTrip($id) {
+        global $gDatabase;
+        $statement = $gDatabase->prepare("SELECT * FROM `" . strtolower( get_called_class() ) . "` WHERE trip = :id AND deleted = 1;");
         $statement->bindParam(":id", $id);
 
         $statement->execute();
@@ -54,7 +72,7 @@ class Signup extends DataObject {
 
     public static function getByUser($id) {
         global $gDatabase;
-        $statement = $gDatabase->prepare("SELECT * FROM `" . strtolower( get_called_class() ) . "` WHERE user = :id;");
+        $statement = $gDatabase->prepare("SELECT * FROM `" . strtolower( get_called_class() ) . "` WHERE user = :id AND deleted = 0;");
         $statement->bindParam(":id", $id);
 
         $statement->execute();
@@ -224,6 +242,21 @@ class Signup extends DataObject {
 
     public function canDelete() 
     {
-        return PaymentStatus::isDeletable($this->getPayment()->getStatus());
+        return true;
+    }
+
+    public function delete()
+    {
+        global $gDatabase;
+        $statement = $gDatabase->prepare("UPDATE `" . strtolower( get_called_class() ) . "` SET deleted = 1 WHERE id = :id LIMIT 1;");
+        $statement->bindParam(":id", $this->id);
+        $statement->execute();
+
+        $this->deleted = 1;
+    }
+
+    public function isDeleted()
+    {
+        return $this->deleted == 1;
     }
 }

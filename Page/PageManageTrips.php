@@ -413,10 +413,12 @@ class PageManageTrips extends PageBase
 
         $helper = new SignupListHelper($g);
         $signups = $helper->getPrioritisedSignups();
+        $deletedSignups = Signup::getDeletedByTrip($g->getId());
 
         $this->mBasePage = "managetrips/tripsignup.tpl";
         $this->mSmarty->assign( "trip", $g );
         $this->mSmarty->assign( "signups", $signups );
+        $this->mSmarty->assign( "deletedSignups", $deletedSignups );
     }
 
     private function paymentMode( $data ) {
@@ -426,10 +428,12 @@ class PageManageTrips extends PageBase
 
         $helper = new SignupListHelper($g);
         $signups = $helper->getPrioritisedSignups();
+        $deletedSignups = Signup::getDeletedByTrip($g->getId());
 
         $this->mBasePage = "managetrips/trippayments.tpl";
         $this->mSmarty->assign( "trip", $g );
         $this->mSmarty->assign( "signups", $signups );
+        $this->mSmarty->assign( "deletedSignups", $deletedSignups );
     }
 
     private function paymentWorkflowMode( $data ) {

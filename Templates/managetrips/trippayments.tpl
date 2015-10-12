@@ -63,6 +63,33 @@
 				</td>
 			</tr>
 		{/foreach}
+		{foreach from="$deletedSignups" item="s" key="tripid"}
+			<tr class="error">
+				<td>
+					<a href="#" rel="tooltip" data-toggle="tooltip" title="{$s->getTime()}">
+						N/A
+					</a>
+					<a href="#" rel="tooltip" data-toggle="tooltip" title="{message name="Trips-signupsheet-deletedsignup"}"><span class="label"><i class="icon-trash icon-white"></i></span></a>
+				</td>
+				<td>{include file="userdisplay.tpl" user=$s->getUserObject()}{if $s->getUserObject()->isDriver()} <span class="label label-info"><i class="icon-road icon-white"></i></span>{/if}</td>
+				<td>{$s->getPayment()->getMethodObject()->getName()}</td>
+				<td>{message name="Payments-status-{$s->getPayment()->getStatus()}"}</td>
+				<td>&pound;{$s->getPayment()->getAmount()|string_format:"%.2f"}</td>
+				<td>&pound;{$s->getPayment()->getHandlingCharge()|string_format:"%.2f"}</td>
+				<td>&pound;{$s->getPayment()->getTotal()|string_format:"%.2f"}</td>
+				<td>
+					<form method="post" action="{$cScriptPath}/{$pageslug}/paymentWorkflow" style="margin-bottom:0px;">
+						<input type="hidden" name="payment" value="{$s->getPayment()->getId()}" />
+						<input type="hidden" name="trip" value="{$trip->getId()}" />
+						<div class="btn-group">
+							{foreach from=$s->getPayment()->getMethodObject()->getNextWorkflowState($s->getPayment()->getStatus()) item="action"}
+								<button name="action" value="{$action}" class="btn btn-small {PaymentStatus::getButton($action)}"><i class="{PaymentStatus::getIcon($action)} icon-white"></i>&nbsp;{message name="paymentaction-to-{$action}"}</a>
+							{/foreach}
+						</div>
+					</form>
+				</td>
+			</tr>
+		{/foreach}
 	</table>
 {/block}
 {block name="scriptfooter"}
