@@ -28,18 +28,25 @@
     <OutputPath>bin\beta\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DataObjects\Payment.php" />
     <Compile Include="DataObjects\Signup.php">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DataObjects\Trip.php">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DataObjects\TripPaymentMethod.php" />
+    <Compile Include="Page\PagePaymentCallback.php" />
+    <Compile Include="PaymentMethods\FakePayPalPaymentMethod.php" />
     <Compile Include="HwumcTripExtension.php">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="HwumcTripHooks.php">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PaymentMethods\IPaymentMethod.php" />
+    <Compile Include="PaymentMethods\ManualPaymentMethod.php" />
+    <Compile Include="PaymentMethods\NullPaymentMethod.php" />
     <Compile Include="Page\PageMyTrips.php" />
     <Compile Include="Page\PageTrips.php">
       <SubType>Code</SubType>
@@ -47,6 +54,8 @@
     <Compile Include="Page\PageManageTrips.php">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PaymentMethods\PaymentMethodBase.php" />
+    <Compile Include="PaymentStatus.php" />
     <Compile Include="SignupListHelper.php">
       <SubType>Code</SubType>
     </Compile>
@@ -57,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataObjects\" />
+    <Folder Include="PaymentMethods\" />
     <Folder Include="Page\" />
     <Folder Include="Templates\" />
     <Folder Include="Templates\managetrips\" />
@@ -67,6 +77,7 @@
     <Content Include="Templates\managetrips\tripemail.tpl">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Templates\managetrips\trippayments.tpl" />
     <Content Include="Templates\managetrips\tripsignupmail.tpl">
       <SubType>Content</SubType>
     </Content>

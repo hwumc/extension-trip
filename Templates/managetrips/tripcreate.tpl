@@ -75,7 +75,7 @@
 		</div>
 	</fieldset>
 	<fieldset>
-		<legend>{message name="{$pageslug}-create-signupheader"}</legend>
+		<legend>{message name="{$pageslug}-create-paymentheader"}</legend>
 		<div class="control-group">
 			<label class="control-label" for="price">{message name="{$pageslug}-create-price"}</label>
 			<div class="controls">
@@ -86,6 +86,21 @@
 				<span class="help-inline">{message name="{$pageslug}-create-price-help"}</span>
 			</div>
 		</div>
+
+		<div class="control-group">
+			<label class="control-label">{message name="{$pageslug}-create-paymentmethods"}</label>
+			<div class="controls">
+				{foreach from=$allowedPaymentMethods key="method" item="check"}
+					<label class="checkbox">
+						<input type="checkbox" name="pm-{$method}" {if $check == "true"}checked="true" {/if} {if $allowEdit == "false"}disabled="true" {/if}/>
+						<strong>{message name="paymentMethod-{$method}"}</strong>: {message name="paymentMethod-{$method}-description"}
+					</label>
+				{/foreach}
+			</div>
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend>{message name="{$pageslug}-create-signupheader"}</legend>
 		<div class="control-group">
 			<label class="control-label" for="spaces">{message name="{$pageslug}-create-spaces"}</label>
 			<div class="controls">
@@ -129,7 +144,7 @@
 
 		<div class="control-group">
 			<div class="controls">
-				<label class="control-label" for="hasmeal">
+				<label for="hasmeal" class="checkbox">
 					<input type="checkbox" id="hasmeal" name="hasmeal" {$hasmeal} {if $allowEdit == "false"}disabled="true" {/if}/> {message name="{$pageslug}-create-hasmeal"}
 				</label>
 			</div>
@@ -137,7 +152,7 @@
 
         <div class="control-group">
             <div class="controls">
-                <label class="control-label" for="showleavefrom">
+                <label for="showleavefrom" class="checkbox">
                     <input type="checkbox" id="showleavefrom" name="showleavefrom" {$showleavefrom} {if $allowEdit == "false" }disabled="true" {/if}/> {message name="{$pageslug}-create-showleavefrom"}
                 </label>
             </div>

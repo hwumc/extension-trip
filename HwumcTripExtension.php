@@ -18,11 +18,23 @@ class HwumcTripExtension extends Extension
     {
         $files = array(
             "HwumcTripHooks" => "HwumcTripHooks.php",
-            "Trip" => "DataObjects/Trip.php",
-            "Signup" => "DataObjects/Signup.php",
-            "TripHardStatus" => "TripHardStatus.php",
-            "SignupListHelper" => "SignupListHelper.php",
-            "SignupStatus" => "SignupStatus.php",
+            
+            "Trip"                      => "DataObjects/Trip.php",
+            "Signup"                    => "DataObjects/Signup.php",
+            "Payment"                   => "DataObjects/Payment.php",
+            "TripPaymentMethod"         => "DataObjects/TripPaymentMethod.php",
+            
+            "TripHardStatus"            => "TripHardStatus.php",
+            "PaymentStatus"             => "PaymentStatus.php",
+            
+            "SignupListHelper"          => "SignupListHelper.php",
+            "SignupStatus"              => "SignupStatus.php",
+            
+            "IPaymentMethod"            => "PaymentMethods/IPaymentMethod.php",
+            "PaymentMethodBase"         => "PaymentMethods/PaymentMethodBase.php",
+            "NullPaymentMethod"         => "PaymentMethods/NullPaymentMethod.php",
+            "ManualPaymentMethod"       => "PaymentMethods/ManualPaymentMethod.php",
+            "FakePayPalPaymentMethod"   => "PaymentMethods/FakePayPalPaymentMethod.php",
         );
 
         return array_key_exists($class, $files) ? $files[$class] : null;
@@ -34,6 +46,5 @@ class HwumcTripExtension extends Extension
         Hooks::register( "PostSetupSmarty", array("HwumcTripHooks","smartySetup"));
         Hooks::register( "PreCreatePersonalMenu", array("HwumcTripHooks","addPersonalMenuItems"));
     }
-
 
 }

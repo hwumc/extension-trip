@@ -126,6 +126,20 @@
 			</div>
 		</div>
 
+		{if $showPaymentMethods}
+			<div class="control-group">
+				<label class="control-label">{message name="{$pageslug}-signup-paymentmethods"}</label>
+				<div class="controls">
+					{foreach from=$allowedPaymentMethods key="method" item="methoddata"}
+						<label class="radio">
+							<input type="radio" name="paymentMethod" value="{$method}" {if $methoddata.check == "true"}checked="true" {/if} {if $allowEdit == "false"}disabled="true" {/if} required/>
+							{message name="paymentMethod-{$method}-userdescription"} (&pound;{$trip->getPrice()|escape}{if $methoddata.method->calculateHandlingCharge($trip->getPrice()) > 0} {message name="with-handling-charge"} &pound;{$methoddata.method->calculateHandlingCharge($trip->getPrice())|string_format:"%.2f"}{/if})
+						</label>
+					{/foreach}
+				</div>
+			</div>
+		{/if}
+
 		<p>{rawmessage name="{$pageslug}-signup-legalagreement-text"}</p>
 		<div class="control-group">
 			<div class="controls">
