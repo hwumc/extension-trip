@@ -26,7 +26,7 @@ class NullPaymentMethod extends PaymentMethodBase implements IPaymentMethod
 
     public function getPaymentWorkflow()
     {
-        return array();
+        return array(PaymentStatus::UNKNOWN => array());
     }
 
     public function createPayment(Signup $signup, $amount)
