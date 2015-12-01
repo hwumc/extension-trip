@@ -8,7 +8,7 @@ class HwumcTripExtension extends Extension
     {
         return array(
             "name" => "HWUMC Trip Module",
-            "gitviewer" => "https://gerrit.stwalkerster.co.uk/gitweb?p=siteframework/extensions/hwumc-trip.git;a=tree;h=",
+            "gitviewer" => "https://phabricator.stwalkerster.co.uk/rSFT",
             "description" => "HWUMC Trip Module",
             "filepath" => dirname(__FILE__),
         );
