@@ -239,7 +239,7 @@ class PageManageTrips extends PageBase
             $this->mSmarty->assign( "showleavefrom", $g->getShowLeaveFrom() ? 'checked' : '');
             $this->mSmarty->assign( "allowedPaymentMethods", $paymentMethods);
             
-            $allfiles = File::getArray();
+            $allfiles = File::getImages();
             $this->mSmarty->assign("allfiles", $allfiles);
 
             global $cWebPath;
@@ -393,6 +393,9 @@ class PageManageTrips extends PageBase
             $this->mSmarty->assign( "hasmeal", "" );
             $this->mSmarty->assign( "showleavefrom", "" );
             $this->mSmarty->assign( "allowedPaymentMethods", $paymentMethods);
+            
+            $allfiles = File::getImages();
+            $this->mSmarty->assign("allfiles", $allfiles);
 
             global $cWebPath;
             $this->mStyles[] = $cWebPath . '/style/bootstrap-datetimepicker.min.css';
